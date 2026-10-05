@@ -1,0 +1,77 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+build/
+dist/
+
+# Virtual environments
+.venv/
+venv/
+env/
+.venv-*/
+
+# Secrets and local config
+.env
+.env.*
+!.env.example
+config.toml
+token*.json
+credentials*.json
+client_secret*.json
+google.json
+*.pickle
+*.pem
+*.key
+
+# Runtime data and logs (personal)
+logs/
+data/
+*.log
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+financas/*.ofx
+financas/*.csv
+financas/*.xlsx
+*.ofx
+
+# Audio outputs and samples
+*.wav
+*.ogg
+*.oga
+*.opus
+*.mp3
+*.m4a
+amostras/
+
+# Model caches
+.cache/
+models/
+huggingface/
+*.gguf
+*.onnx
+*.pt
+*.bin
+
+# OpenJarvis checkout (cloned separately, see README) and its telemetry folder
+openjarvis/
+~/
+
+# Default output of evals/rodar.py when run again
+evals/resultado.json
+
+# Local notes for the owner
+PUBLICAR.md
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

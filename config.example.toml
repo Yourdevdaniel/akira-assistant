@@ -1,0 +1,49 @@
+# Example OpenJarvis config for Akira Assistant.
+# Copy to ~/.openjarvis/config.toml (outside this repo) and adjust.
+# Only the keys Akira relies on are listed; everything else keeps the
+# OpenJarvis defaults. See https://open-jarvis.github.io/OpenJarvis/ for the rest.
+
+[engine]
+default = "ollama"
+
+[intelligence]
+# Used by the conversation and by the task classifier (runner/tarefas.py).
+default_model = "llama3.2:3b"
+
+[agent]
+default_agent = "simple"
+
+[channel.telegram]
+# Leave empty and use TELEGRAM_BOT_TOKEN / TELEGRAM_ALLOWED_CHAT_IDS from .env,
+# or fill in here. Never commit the real values.
+bot_token = ""
+allowed_chat_ids = ""
+
+[speech]
+# Voice notes from Telegram are transcribed locally with faster-whisper.
+backend = "faster-whisper"
+model = "small"
+language = "pt"
+device = "auto"            # "cuda" with an NVIDIA GPU, otherwise "cpu"
+compute_type = "float16"   # use "int8" on CPU
+
+[digest]
+# Morning digest: Gmail + Google Calendar, read aloud in Brazilian Portuguese.
+# Requires the OpenJarvis patch in patches/ for `language`.
+language = "pt-BR"
+tts_backend = "kokoro"
+voice_id = "pf_dora"       # Kokoro pt-BR voices: pf_dora, pm_alex, pm_santa
+voice_speed = 1.0
+honorific = ""
+sections = ["messages", "calendar"]
+
+[digest.messages]
+sources = ["gmail"]
+
+[digest.calendar]
+sources = ["gcalendar"]
+
+[analytics]
+# OpenJarvis sends anonymous usage events to its team by default. Akira turns
+# that off. `jarvis init --force` rewrites this file and drops this section.
+enabled = false

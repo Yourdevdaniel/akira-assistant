@@ -1,0 +1,3 @@
+# The tests in tests/ only need the standard library and pytest.
+# The runtime dependencies come from OpenJarvis (see README, "Run it").
+pytest>=8

@@ -1,0 +1,1101 @@
+Local changes to OpenJarvis used by Akira Assistant.
+
+Upstream: https://github.com/open-jarvis/OpenJarvis (Apache License 2.0)
+Base commit: 93c1f87ab65e22cdd442a27da1e22aaf6f6b301e
+Apply from the root of an OpenJarvis checkout at that commit:
+    git apply ../patches/openjarvis-local.patch
+
+What it changes (see NOTICE):
+- sdk.py: Jarvis.ask() accepts `history` with earlier conversation turns.
+- channels/telegram.py: voice notes and audio files reach handlers as bytes
+  (metadata["audio"]); callbacks are coroutines, as python-telegram-bot expects.
+- agents/morning_digest.py: Portuguese (pt-BR) briefing prompt, markdown
+  stripping, money spoken as words ("R$ 55" -> "55 reais"), single generation.
+- tools/digest_collect.py: cleaner email previews (no HTML, links or invisible
+  padding), sender display names, merged duplicate emails, a one-day calendar
+  horizon, Windows-safe date formatting, configurable items per source.
+- core/config.py, system/orchestrator.py: digest `language`,
+  `max_items_per_source` and a digest-only `model`.
+- tests for all of the above.
+
+Test fixtures in this file use placeholder senders (example.com).
+
+diff --git a/src/openjarvis/agents/morning_digest.py b/src/openjarvis/agents/morning_digest.py
+index 14151cd9..27c7b39d 100644
+--- a/src/openjarvis/agents/morning_digest.py
++++ b/src/openjarvis/agents/morning_digest.py
+@@ -7,6 +7,7 @@ the LLM (narrative synthesis), and text_to_speech (audio generation).
+ from __future__ import annotations
+ 
+ import json
++import re
+ from datetime import datetime
+ from pathlib import Path
+ from typing import Any, List, Optional
+@@ -26,6 +27,96 @@ _SECTION_PROMPTS = {
+ }
+ 
+ 
++_SECTION_PROMPTS_PT = {
++    "messages": (
++        "Emails: fale de cada um. Comece pelos que pedem atenção (alerta de "
++        "segurança, cobrança, prazo) e depois os informativos e promoções. "
++        "Emails do mesmo remetente viram uma frase só. (x2) no fim do assunto "
++        "quer dizer que o mesmo email chegou duas vezes."
++    ),
++    "calendar": "Agenda: só os eventos que vieram nos dados.",
++    "health": "Saúde: só tendências que os dados sustentam, sem números crus.",
++    "world": "Notícias: só as que vieram nos dados.",
++    "music": "Música: só o que veio nos dados de reprodução.",
++}
++
++_WEEKDAYS_PT = (
++    "segunda-feira",
++    "terça-feira",
++    "quarta-feira",
++    "quinta-feira",
++    "sexta-feira",
++    "sábado",
++    "domingo",
++)
++_MONTHS_PT = (
++    "janeiro",
++    "fevereiro",
++    "março",
++    "abril",
++    "maio",
++    "junho",
++    "julho",
++    "agosto",
++    "setembro",
++    "outubro",
++    "novembro",
++    "dezembro",
++)
++
++
++def _date_pt(now: datetime) -> str:
++    """``datetime(2026, 9, 24)`` -> ``"quinta-feira, 24 de setembro de 2026"``."""
++    return (
++        f"{_WEEKDAYS_PT[now.weekday()]}, {now.day} de "
++        f"{_MONTHS_PT[now.month - 1]} de {now.year}"
++    )
++
++
++def _strip_markdown(text: str) -> str:
++    """Remove headers, bullets and emphasis that small models emit anyway.
++
++    The briefing is read aloud and sent to chat channels as plain text, so
++    ``**MESSAGES**`` or ``- item`` would be spoken or shown literally.
++    """
++    text = re.sub(r"^#{1,6}\s+", "", text, flags=re.MULTILINE)
++    text = re.sub(r"^\s*(?:[-*•]|\d+[.)])\s+", "", text, flags=re.MULTILINE)
++    text = re.sub(r"\*{1,2}([^*]+)\*{1,2}", r"\1", text)
++    text = re.sub(r"__([^_]+)__", r"\1", text)
++    text = re.sub(r"`([^`]+)`", r"\1", text)
++    text = re.sub(r"\n{3,}", "\n\n", text)
++    return text.strip()
++
++
++# "(13h ago)" from digest_collect. The Portuguese prompt forbids arrival
++# times, but the model turns them into clock times ("às 20h") anyway.
++_AGO_RE = re.compile(r" \((?:just now|\d+[mhd] ago)\)")
++_MONEY_RE = re.compile(r"(?<![A-Za-z])(R|US)?\$\s?(\d[\d.,]*\d|\d)")
++
++
++def _spoken_money(text: str) -> str:
++    """``R$ 55,00`` -> ``55 reais``; ``$250`` -> ``250 dólares``.
++
++    The synthesizer reads the currency symbol literally.
++    """
++
++    def speak(match: re.Match) -> str:
++        real = match.group(1) == "R"
++        thousands, decimal = (".", ",") if real else (",", ".")
++        whole, _, cents = match.group(2).replace(thousands, "").partition(decimal)
++        if whole == "1":
++            unit = "real" if real else "dólar"
++        else:
++            unit = "reais" if real else "dólares"
++        spoken = f"{whole} {unit}"
++        cents = cents.ljust(2, "0")[:2]
++        if cents.strip("0"):
++            spoken += f" e {int(cents)} centavos"
++        return spoken
++
++    return _MONEY_RE.sub(speak, text)
++
++
+ def _load_persona(persona_name: str) -> str:
+     """Load a persona prompt file by name."""
+     search_paths = [
+@@ -57,10 +148,17 @@ class MorningDigestAgent(ToolUsingAgent):
+         self._tts_backend = kwargs.pop("tts_backend", "cartesia")
+         self._digest_store_path = kwargs.pop("digest_store_path", "")
+         self._honorific = kwargs.pop("honorific", "sir")
++        self._language = kwargs.pop("language", "en")
++        self._max_items_per_source = kwargs.pop("max_items_per_source", 15)
+         super().__init__(*args, **kwargs)
+ 
++    def _is_portuguese(self) -> bool:
++        return str(getattr(self, "_language", "en")).casefold().startswith("pt")
++
+     def _build_system_prompt(self) -> str:
+         """Assemble the system prompt from persona + briefing structure."""
++        if self._is_portuguese():
++            return self._build_system_prompt_pt()
+         persona_text = _load_persona(self._persona)
+         now = datetime.now()
+         honorific = getattr(self, "_honorific", "sir")
+@@ -97,6 +195,53 @@ class MorningDigestAgent(ToolUsingAgent):
+             "- STRICT LIMIT: 200 words. Be concise."
+         )
+ 
++    def _build_system_prompt_pt(self) -> str:
++        """Portuguese prompt: small models answer in the prompt's language."""
++        persona_text = _load_persona(self._persona)
++        sections = dict.fromkeys(
++            str(section).strip().casefold()
++            for section in self._sections
++            if str(section).strip()
++        )
++        section_block = "\n".join(
++            f"- {_SECTION_PROMPTS_PT.get(section, section.upper())}"
++            for section in sections
++        )
++        honorific = getattr(self, "_honorific", "")
++        honorific_rule = (
++            f"Pode chamar a pessoa de {honorific}, no máximo uma vez.\n"
++            if honorific
++            else "Não use vocativo.\n"
++        )
++        return (
++            f"{persona_text}\n\n"
++            f"Hoje é {_date_pt(datetime.now())}.\n\n"
++            "Os dados já foram coletados e estão na mensagem do usuário. "
++            "Você não busca nada.\n\n"
++            "Escreva o resumo do dia que vai ser LIDO EM VOZ ALTA por um "
++            "sintetizador. Por isso:\n"
++            "- Escreva tudo em português do Brasil, com acentuação correta, "
++            "mesmo quando o email estiver em inglês. Traduza o assunto.\n"
++            "- Texto corrido, em frases curtas e parágrafos. Sem markdown, "
++            "asteriscos, tópicos, títulos, emojis, links ou endereços de email.\n"
++            "- Diga o nome do remetente (Google, GitHub), nunca o endereço.\n"
++            "- Os emails são da pessoa, não seus: diga 'você recebeu', "
++            "nunca 'recebi' ou 'minha conta'.\n"
++            "- Valores e horários do jeito que se fala: 55 reais, 250 dólares, "
++            "8 da manhã.\n"
++            f"{honorific_rule}\n"
++            "Um parágrafo por assunto, nesta ordem, sem escrever o nome do "
++            f"assunto como título:\n{section_block or '- Nenhum'}\n\n"
++            "Além disso:\n"
++            "- Só fatos dos dados. Não invente nada nem conte itens que não vieram.\n"
++            "- Não diga quando cada email chegou nem leia termos "
++            "técnicos como permissões ou identificadores.\n"
++            "- Não mencione fontes desconectadas nem erros.\n"
++            "- Só conte o que chegou. Não dê conselhos, não diga o que a pessoa "
++            "deve fazer ou verificar e não feche com frase sobre ações.\n"
++            "- No máximo 250 palavras."
++        )
++
+     def _resolve_sources(self) -> List[str]:
+         """Get the list of connector IDs to query."""
+         default_source_map = {
+@@ -133,67 +278,49 @@ class MorningDigestAgent(ToolUsingAgent):
+         collect_call = ToolCall(
+             id="digest-collect-1",
+             name="digest_collect",
+-            arguments=json.dumps({"sources": sources, "hours_back": 24}),
++            arguments=json.dumps(
++                {
++                    "sources": sources,
++                    "hours_back": 24,
++                    "max_per_source": self._max_items_per_source,
++                    "collapse_duplicates": True,
++                }
++            ),
+         )
+         collect_result = self._executor.execute(collect_call)
+         collected_data = collect_result.content
+ 
+         # Step 2: Synthesize narrative via LLM
+         system_prompt = self._build_system_prompt()
++        if self._is_portuguese():
++            user_prompt = (
++                "Estes dados são a única fonte de fatos para o resumo:\n\n"
++                f"<collected_data>\n{_AGO_RE.sub('', collected_data)}\n"
++                "</collected_data>\n\n"
++                "Escreva o resumo agora, em português do Brasil, em texto corrido "
++                "e sem markdown."
++            )
++        else:
++            user_prompt = (
++                "The following collected data is the only factual evidence for "
++                f"the briefing:\n\n<collected_data>\n{collected_data}\n"
++                "</collected_data>\n\nUse configured sections only. Omit missing "
++                "data and sources. Do not add personal context or activities. "
++                "Use the honorific no more than three times and keep the "
++                "briefing under 200 words."
++            )
+         messages = [
+             Message(role=Role.SYSTEM, content=system_prompt),
+-            Message(
+-                role=Role.USER,
+-                content=(
+-                    "The following collected data is the only factual evidence for "
+-                    f"the briefing:\n\n<collected_data>\n{collected_data}\n"
+-                    "</collected_data>\n\nUse configured sections only. Omit missing "
+-                    "data and sources. Do not add personal context or activities. "
+-                    "Use the honorific no more than three times and keep the "
+-                    "briefing under 200 words."
+-                ),
+-            ),
++            Message(role=Role.USER, content=user_prompt),
+         ]
+ 
+         result = self._generate(messages)
+-        narrative = self._strip_think_tags(result.get("content", ""))
+-
+-        # Step 2b: Self-evaluate and optionally regenerate
+-        quality_score = 0.0
+-        evaluator_feedback = ""
+-        try:
+-            from openjarvis.agents.digest_evaluator import DigestEvaluator
+-
+-            evaluator = DigestEvaluator(self._engine, self._model)
+-            quality_score, evaluator_feedback = evaluator.evaluate(
+-                collected_data, narrative
+-            )
++        narrative = _strip_markdown(self._strip_think_tags(result.get("content", "")))
++        if self._is_portuguese():
++            narrative = _spoken_money(narrative)
+ 
+-            if quality_score < 7.0 and evaluator_feedback:
+-                # Regenerate with feedback
+-                messages.append(
+-                    Message(
+-                        role=Role.USER,
+-                        content=(
+-                            f"Your briefing scored {quality_score:.1f}/10. "
+-                            f"Feedback: {evaluator_feedback}\n"
+-                            f"Please revise the briefing addressing this feedback."
+-                        ),
+-                    )
+-                )
+-                result = self._generate(messages)
+-                narrative = self._strip_think_tags(result.get("content", ""))
+-        except Exception:  # noqa: BLE001
+-            pass  # Evaluator failure shouldn't block digest delivery
+-
+-        # Step 3: Generate audio via TTS
+-        # Strip any markdown that slipped through (##, *, -, etc.)
+-        import re
+-
+-        tts_text = re.sub(r"^#{1,6}\s+", "", narrative, flags=re.MULTILINE)
+-        tts_text = re.sub(r"^\s*[-*•]\s+", "", tts_text, flags=re.MULTILINE)
+-        tts_text = re.sub(r"\*{1,2}([^*]+)\*{1,2}", r"\1", tts_text)
+-        tts_text = tts_text.strip()
++        # Step 3: Generate audio via TTS (narrative is already markdown-free)
++        tts_text = narrative
+ 
+         output_dir = str(get_config_dir() / "digests")
+         tts_call = ToolCall(
+@@ -223,8 +350,6 @@ class MorningDigestAgent(ToolUsingAgent):
+             generated_at=datetime.now(),
+             model_used=self._model,
+             voice_used=self._voice_id,
+-            quality_score=quality_score,
+-            evaluator_feedback=evaluator_feedback,
+         )
+ 
+         store = DigestStore(db_path=self._digest_store_path)
+diff --git a/src/openjarvis/channels/telegram.py b/src/openjarvis/channels/telegram.py
+index 64fccb7a..dd702b62 100644
+--- a/src/openjarvis/channels/telegram.py
++++ b/src/openjarvis/channels/telegram.py
+@@ -383,30 +383,20 @@ class TelegramChannel(BaseChannel):
+             with self._runtime_lock:
+                 self._app = app
+ 
+-            def _handle_msg(update, context):
+-                msg = update.message
+-                if msg is None:
+-                    return
+-                cm = ChannelMessage(
+-                    channel="telegram",
+-                    sender=str(msg.from_user.id) if msg.from_user else "",
+-                    content=msg.text or "",
+-                    message_id=str(msg.message_id),
+-                    conversation_id=str(msg.chat.id),
+-                )
+-                # Enforce allow-list when configured
+-                if self._allowed_chat_ids:
+-                    _allowed = {
+-                        cid.strip()
+-                        for cid in self._allowed_chat_ids.split(",")
+-                        if cid.strip()
+-                    }
+-                    if cm.conversation_id not in _allowed:
+-                        logger.debug(
+-                            "Ignoring message from unlisted chat %s",
+-                            cm.conversation_id,
+-                        )
+-                        return
++            def _allowed(chat_id: str) -> bool:
++                if not self._allowed_chat_ids:
++                    return True
++                allowed = {
++                    cid.strip()
++                    for cid in self._allowed_chat_ids.split(",")
++                    if cid.strip()
++                }
++                if chat_id not in allowed:
++                    logger.debug("Ignoring message from unlisted chat %s", chat_id)
++                    return False
++                return True
++
++            def _dispatch(cm: ChannelMessage) -> None:
+                 for handler in self._handlers:
+                     try:
+                         handler(cm)
+@@ -423,7 +413,54 @@ class TelegramChannel(BaseChannel):
+                         },
+                     )
+ 
++            # PTB awaits every callback: a plain function runs and then fails
++            # with "NoneType can't be used in 'await' expression".
++            async def _handle_msg(update, context):
++                msg = update.message
++                if msg is None:
++                    return
++                cm = ChannelMessage(
++                    channel="telegram",
++                    sender=str(msg.from_user.id) if msg.from_user else "",
++                    content=msg.text or "",
++                    message_id=str(msg.message_id),
++                    conversation_id=str(msg.chat.id),
++                )
++                if _allowed(cm.conversation_id):
++                    _dispatch(cm)
++
++            async def _handle_voice(update, context):
++                """Hand voice notes and audio files over as bytes.
++
++                Handlers get ``metadata["audio"]`` and transcribe it themselves:
++                transcription takes seconds and would stall this event loop.
++                """
++                msg = update.message
++                if msg is None or not _allowed(str(msg.chat.id)):
++                    return
++                media = msg.voice or msg.audio
++                telegram_file = await media.get_file()
++                audio = bytes(await telegram_file.download_as_bytearray())
++                # Voice notes are always Ogg/Opus and have no file name.
++                suffix = os.path.splitext(getattr(media, "file_name", None) or "")[1]
++                _dispatch(
++                    ChannelMessage(
++                        channel="telegram",
++                        sender=str(msg.from_user.id) if msg.from_user else "",
++                        content=msg.caption or "",
++                        message_id=str(msg.message_id),
++                        conversation_id=str(msg.chat.id),
++                        metadata={
++                            "audio": audio,
++                            "audio_format": suffix.lstrip(".") or "ogg",
++                        },
++                    )
++                )
++
+             app.add_handler(MessageHandler(filters.TEXT, _handle_msg))
++            app.add_handler(
++                MessageHandler(filters.VOICE | filters.AUDIO, _handle_voice)
++            )
+             loop.run_until_complete(self._run_polling_lifecycle(app, async_stop_event))
+         except Exception:
+             logger.debug("Telegram poll loop error", exc_info=True)
+diff --git a/src/openjarvis/core/config.py b/src/openjarvis/core/config.py
+index 212153c3..490da4ef 100644
+--- a/src/openjarvis/core/config.py
++++ b/src/openjarvis/core/config.py
+@@ -1742,6 +1742,11 @@ class DigestConfig:
+     voice_id: str = ""
+     voice_speed: float = 1.0
+     tts_backend: str = "cartesia"
++    # Language of the spoken briefing; "pt-BR" switches the prompt to Portuguese.
++    language: str = "en"
++    max_items_per_source: int = 15
++    # Model for the digest only; empty uses intelligence.default_model.
++    model: str = ""
+     messages: DigestSectionConfig = field(
+         default_factory=lambda: DigestSectionConfig(
+             sources=["gmail", "slack", "google_tasks"]
+diff --git a/src/openjarvis/sdk.py b/src/openjarvis/sdk.py
+index b0c2b343..a78f0edc 100644
+--- a/src/openjarvis/sdk.py
++++ b/src/openjarvis/sdk.py
+@@ -254,6 +254,7 @@ class Jarvis:
+         max_tokens: Optional[int] = None,
+         context: bool = True,
+         channel: Optional[Any] = None,
++        history: Optional[List[Message]] = None,
+     ) -> str:
+         """Send a query and return the response text."""
+         result = self.ask_full(
+@@ -265,6 +266,7 @@ class Jarvis:
+             max_tokens=max_tokens,
+             context=context,
+             channel=channel,
++            history=history,
+         )
+         return result["content"]
+ 
+@@ -279,9 +281,13 @@ class Jarvis:
+         max_tokens: Optional[int] = None,
+         context: bool = True,
+         channel: Optional[Any] = None,
++        history: Optional[List[Message]] = None,
+     ) -> Dict[str, Any]:
+         """Send a query and return the full result dict.
+ 
++        ``history`` holds earlier turns of the same conversation, oldest
++        first; they go between the system prompt and *query*.
++
+         Returns a dict with keys: content, usage, tool_results (if agent mode).
+         """
+         self._ensure_engine()
+@@ -311,10 +317,11 @@ class Jarvis:
+                 max_tokens=max_tokens,
+                 context=context,
+                 channel=channel,
++                history=history,
+             )
+ 
+         # Direct engine mode
+-        messages = [Message(role=Role.USER, content=query)]
++        messages = [*(history or []), Message(role=Role.USER, content=query)]
+ 
+         # Memory context injection
+         if context and self._config.agent.context_from_memory:
+@@ -451,6 +458,7 @@ class Jarvis:
+         max_tokens: int,
+         context: bool,
+         channel: Optional[Any] = None,
++        history: Optional[List[Message]] = None,
+     ) -> Dict[str, Any]:
+         """Run an agent and return the result dict."""
+         import openjarvis.agents  # noqa: F401
+@@ -516,8 +524,11 @@ class Jarvis:
+                     "voice_speed": dc.voice_speed,
+                     "tts_backend": dc.tts_backend,
+                     "honorific": dc.honorific,
++                    "language": dc.language,
++                    "max_items_per_source": dc.max_items_per_source,
+                 }
+             )
++            model_name = dc.model or model_name
+             # Ensure digest agent always has its required tools
+             from openjarvis.tools.digest_collect import DigestCollectTool
+             from openjarvis.tools.text_to_speech import TextToSpeechTool
+@@ -551,6 +562,8 @@ class Jarvis:
+             agent_id=agent_name,
+         )
+         ctx = AgentContext()
++        for message in history or []:
++            ctx.conversation.add(message)
+ 
+         # Context injection
+         if context and self._config.agent.context_from_memory:
+diff --git a/src/openjarvis/system/orchestrator.py b/src/openjarvis/system/orchestrator.py
+index 90a0eb3d..d578e1f4 100644
+--- a/src/openjarvis/system/orchestrator.py
++++ b/src/openjarvis/system/orchestrator.py
+@@ -183,8 +183,10 @@ class QueryOrchestrator:
+             agent_kwargs["session_store"] = s.session_store
+             agent_kwargs["memory_backend"] = s.memory_backend
+ 
++        agent_model = s.model
+         if agent_name == "morning_digest" and hasattr(s.config, "digest"):
+             dc = s.config.digest
++            agent_model = dc.model or s.model
+             section_sources = {}
+             for sec in dc.sections:
+                 sc = getattr(dc, sec, None)
+@@ -200,6 +202,8 @@ class QueryOrchestrator:
+                     "voice_speed": dc.voice_speed,
+                     "tts_backend": dc.tts_backend,
+                     "honorific": dc.honorific,
++                    "language": dc.language,
++                    "max_items_per_source": dc.max_items_per_source,
+                 }
+             )
+             from openjarvis.tools.digest_collect import DigestCollectTool
+@@ -210,7 +214,7 @@ class QueryOrchestrator:
+             agent_kwargs["tools"] = digest_tools + list(existing)
+ 
+         try:
+-            ag = agent_cls(s.engine, s.model, **agent_kwargs)
++            ag = agent_cls(s.engine, agent_model, **agent_kwargs)
+         except TypeError:
+             try:
+                 ag = agent_cls(s.engine, s.model)
+diff --git a/src/openjarvis/tools/digest_collect.py b/src/openjarvis/tools/digest_collect.py
+index 442b318d..23a76465 100644
+--- a/src/openjarvis/tools/digest_collect.py
++++ b/src/openjarvis/tools/digest_collect.py
+@@ -5,6 +5,7 @@ from __future__ import annotations
+ 
+ import json
+ import re
++from dataclasses import replace
+ from datetime import datetime, timedelta
+ from typing import Any, Dict, List
+ 
+@@ -79,12 +80,20 @@ def _time_ago(ts: datetime) -> str:
+ 
+ def _format_date(ts: datetime) -> str:
+     """Format a datetime as 'April 1' style."""
+-    return ts.strftime("%B %-d") if hasattr(ts, "strftime") else str(ts)
++    # "%-d" is glibc-only and raises ValueError on Windows.
++    return f"{ts.strftime('%B')} {ts.day}" if hasattr(ts, "strftime") else str(ts)
+ 
+ 
+ def _format_time(ts: datetime) -> str:
+     """Format a datetime as '10:30 AM' style."""
+-    return ts.strftime("%-I:%M %p") if hasattr(ts, "strftime") else str(ts)
++    # "%-I" is glibc-only and raises ValueError on Windows.
++    return ts.strftime("%I:%M %p").lstrip("0") if hasattr(ts, "strftime") else str(ts)
++
++
++def _after_horizon(ts: datetime, hours_ahead: float = 24) -> bool:
++    """True when *ts* is more than *hours_ahead* hours in the future."""
++    now = datetime.now(ts.tzinfo) if ts.tzinfo else datetime.now()
++    return ts > now + timedelta(hours=hours_ahead)
+ 
+ 
+ def _parse_content_json(doc: Document) -> Dict[str, Any]:
+@@ -157,6 +166,59 @@ def _format_strava(doc: Document) -> str:
+     return f"[strava] {doc.title}"
+ 
+ 
++_HTML_COMMENT_RE = re.compile(r"<!--.*?-->", re.DOTALL)
++_HTML_TAG_RE = re.compile(r"<[^>]{1,200}>")
++_URL_RE = re.compile(r"<?https?://\S+>?")
++# Invisible padding that marketing emails put after the preheader
++# (combining grapheme joiner, soft hyphen, zero-width chars, BOM).
++_INVISIBLE_RE = re.compile(r"[͏­​-‏⁠﻿]")
++_SENDER_NAME_RE = re.compile(r'^\s*"?([^"<]+?)"?\s*<[^>]+>\s*$')
++
++
++def _clean_preview(text: str, limit: int = 150) -> str:
++    """Strip HTML, links and invisible padding from an email body preview.
++
++    The raw bodies are fed to small local models, which otherwise read
++    ``<!--[if mso]>`` blocks and tracking URLs as if they were content.
++    """
++    text = _HTML_COMMENT_RE.sub(" ", text)
++    text = _HTML_TAG_RE.sub(" ", text)
++    text = _URL_RE.sub(" ", text)
++    text = _INVISIBLE_RE.sub("", text)
++    text = " ".join(text.split())
++    if len(text) > limit:
++        text = text[:limit].rsplit(" ", 1)[0] + "…"
++    return text
++
++
++def _sender_name(author: str) -> str:
++    """``"Acme <no-reply@example.com>"`` -> ``"Acme"``; bare addresses pass through."""
++    match = _SENDER_NAME_RE.match(author)
++    return match.group(1).strip() if match else author
++
++
++def _collapse_duplicate_emails(docs: List[Document]) -> List[Document]:
++    """Merge emails with the same sender, subject and preview into the first one.
++
++    The subject gets an ``(xN)`` suffix, so the briefing says it arrived N
++    times instead of repeating it. The preview is part of the key because
++    notifications reuse one subject for different events (GitHub sends the
++    same "OAuth application added" subject for each app). The merged copies'
++    ids are dropped: only callers that never act on individual emails should
++    ask for this.
++    """
++    counts: Dict[tuple, int] = {}
++    firsts: Dict[tuple, Document] = {}
++    for doc in docs:
++        key = (doc.author, doc.title, _clean_preview(doc.content or ""))
++        counts[key] = counts.get(key, 0) + 1
++        firsts.setdefault(key, doc)
++    return [
++        replace(doc, title=f"{doc.title} (x{counts[key]})") if counts[key] > 1 else doc
++        for key, doc in firsts.items()
++    ]
++
++
+ def _format_gmail(doc: Document) -> str:
+     """Format a Gmail email document.
+ 
+@@ -164,10 +226,10 @@ def _format_gmail(doc: Document) -> str:
+     real Gmail ``messages.get/modify`` id in its action proposals
+     instead of hallucinating one.
+     """
+-    sender = doc.author or "Unknown"
++    sender = _sender_name(doc.author) if doc.author else "Unknown"
+     subject = doc.title or "(no subject)"
+     ago = _time_ago(doc.timestamp)
+-    body = doc.content.replace("\n", " ").strip()[:150] if doc.content else ""
++    body = _clean_preview(doc.content) if doc.content else ""
+     line = f'[gmail id={doc.doc_id}] From: {sender} — "{subject}" ({ago})'
+     if body:
+         line += f"\n  Preview: {body}"
+@@ -463,6 +525,17 @@ class DigestCollectTool(BaseTool):
+                         "items": {"type": "string"},
+                         "description": "doc_ids to exclude (already queued or acted on).",
+                     },
++                    "max_per_source": {
++                        "type": "integer",
++                        "description": "Maximum items fetched per connector (default: 15).",
++                    },
++                    "collapse_duplicates": {
++                        "type": "boolean",
++                        "description": (
++                            "Merge emails with the same sender and subject into one "
++                            "item marked (xN). Drops the merged copies' ids."
++                        ),
++                    },
+                 },
+                 "required": ["sources"],
+             },
+@@ -478,6 +551,9 @@ class DigestCollectTool(BaseTool):
+         hours_back: float = params.get("hours_back", 24)
+         unacted_only: bool = bool(params.get("unacted_only", False))
+         seen_ids: set = set(params.get("seen_ids", []))
++        # Cap per-source to avoid overwhelming the LLM context
++        max_per_source = max(1, int(params.get("max_per_source") or 15))
++        collapse_duplicates = bool(params.get("collapse_duplicates", False))
+         since = datetime.now() - timedelta(hours=hours_back)
+ 
+         # Collect raw documents per source
+@@ -499,8 +575,6 @@ class DigestCollectTool(BaseTool):
+                     )
+                     continue
+ 
+-                # Cap per-source to avoid overwhelming the LLM context
+-                max_per_source = 15
+                 docs: List[Document] = []
+ 
+                 sync_kwargs: Dict[str, Any] = {"since": since}
+@@ -508,6 +582,10 @@ class DigestCollectTool(BaseTool):
+                     sync_kwargs["query_extra"] = "is:unread"
+ 
+                 for d in connector.sync(**sync_kwargs):
++                    # Calendar sync has no end bound, so a yearly event returns
++                    # every future occurrence; keep only the next day.
++                    if source == "gcalendar" and _after_horizon(d.timestamp):
++                        continue
+                     if d.doc_id not in seen_ids:
+                         docs.append(d)
+                     if len(docs) >= max_per_source:
+@@ -519,6 +597,9 @@ class DigestCollectTool(BaseTool):
+                 if unacted_only and source == "gcalendar":
+                     docs = _filter_pending_invites(docs)
+ 
++                if collapse_duplicates and source in ("gmail", "gmail_imap"):
++                    docs = _collapse_duplicate_emails(docs)
++
+                 collected_docs[source] = docs
+             except Exception as exc:
+                 errors.append(f"Error fetching from '{source}': {exc}")
+diff --git a/tests/agents/test_morning_digest.py b/tests/agents/test_morning_digest.py
+index 639df33f..3a9c751f 100644
+--- a/tests/agents/test_morning_digest.py
++++ b/tests/agents/test_morning_digest.py
+@@ -81,3 +81,84 @@ def test_load_persona():
+     # Nonexistent persona returns empty string
+     result = _load_persona("nonexistent_persona_xyz")
+     assert result == ""
++
++
++def test_portuguese_prompt_and_markdown_strip():
++    from datetime import datetime
++
++    from openjarvis.agents.morning_digest import (
++        MorningDigestAgent,
++        _date_pt,
++        _strip_markdown,
++    )
++
++    agent = MorningDigestAgent(
++        MagicMock(), "m", language="pt-BR", honorific="", sections=["messages"]
++    )
++    prompt = agent._build_system_prompt()
++
++    assert "português do Brasil" in prompt
++    assert "Today is" not in prompt
++    assert _date_pt(datetime(2026, 9, 24)) == "quinta-feira, 24 de setembro de 2026"
++    assert (
++        _strip_markdown("## Resumo\n**MESSAGES**\n- item um\n1. item dois")
++        == "Resumo\nMESSAGES\nitem um\nitem dois"
++    )
++
++
++def test_spoken_money():
++    from openjarvis.agents.morning_digest import _spoken_money
++
++    assert _spoken_money("deu $250 em créditos") == "deu 250 dólares em créditos"
++    assert _spoken_money("ganhou R$55,00 e US$ 1") == "ganhou 55 reais e 1 dólar"
++    assert _spoken_money("R$ 1.500,90") == "1500 reais e 90 centavos"
++    assert _spoken_money("$4.5 e $3,000") == "4 dólares e 50 centavos e 3000 dólares"
++    assert _spoken_money("sem valores aqui") == "sem valores aqui"
++
++
++def test_portuguese_run_hides_email_ages_and_speaks_money(tmp_path):
++    import json
++
++    from openjarvis.agents.morning_digest import MorningDigestAgent
++
++    engine = MagicMock()
++    engine.generate.return_value = {
++        "content": "**Acme** ofereceu $250 em créditos.",
++        "finish_reason": "stop",
++        "usage": {},
++    }
++    collect = ToolResult(
++        tool_name="digest_collect",
++        content=(
++            "=== MESSAGES ===\n"
++            '[gmail id=g-1] From: Acme — "$250 in credits" (19h ago)\n'
++            '[gmail id=g-2] From: Forge — "DevOps" (just now)\n'
++        ),
++        success=True,
++        metadata={},
++    )
++    tts = ToolResult(tool_name="text_to_speech", content="", success=True, metadata={})
++    agent = MorningDigestAgent(
++        engine,
++        "m",
++        tools=[],
++        language="pt-BR",
++        honorific="",
++        sections=["messages"],
++        section_sources={"messages": ["gmail"]},
++        digest_store_path=str(tmp_path / "digest.db"),
++    )
++
++    with patch.object(
++        agent._executor, "execute", side_effect=[collect, tts]
++    ) as execute:
++        result = agent.run("Gere o resumo")
++
++    collect_args = json.loads(execute.call_args_list[0].args[0].arguments)
++    prompt = engine.generate.call_args.args[0][-1].text
++    assert collect_args["collapse_duplicates"] is True
++    assert "ago)" not in prompt and "(just now)" not in prompt
++    assert '"DevOps"' in prompt
++    assert result.content == "Acme ofereceu 250 dólares em créditos."
++    # Single generation: there is no self-evaluation round anymore.
++    assert engine.generate.call_count == 1
+diff --git a/tests/channels/test_telegram.py b/tests/channels/test_telegram.py
+index 7c6cff2d..52e589a6 100644
+--- a/tests/channels/test_telegram.py
++++ b/tests/channels/test_telegram.py
+@@ -321,7 +321,9 @@ class TestDisconnectStopsRealListener:
+         telegram_ext = SimpleNamespace(
+             ApplicationBuilder=FakeBuilder,
+             MessageHandler=lambda *args: args,
+-            filters=SimpleNamespace(TEXT=object()),
++            filters=SimpleNamespace(
++                TEXT=object(), VOICE=MagicMock(), AUDIO=MagicMock()
++            ),
+         )
+         ch = TelegramChannel(bot_token="123:ABC")
+ 
+@@ -430,7 +432,9 @@ class TestDisconnectStopsRealListener:
+         telegram_ext = SimpleNamespace(
+             ApplicationBuilder=FakeBuilder,
+             MessageHandler=lambda *args: args,
+-            filters=SimpleNamespace(TEXT=object()),
++            filters=SimpleNamespace(
++                TEXT=object(), VOICE=MagicMock(), AUDIO=MagicMock()
++            ),
+         )
+ 
+         def make_event_loop():
+@@ -531,7 +535,9 @@ class TestDisconnectStopsRealListener:
+         telegram_ext = SimpleNamespace(
+             ApplicationBuilder=FakeBuilder,
+             MessageHandler=lambda *args: args,
+-            filters=SimpleNamespace(TEXT=object()),
++            filters=SimpleNamespace(
++                TEXT=object(), VOICE=MagicMock(), AUDIO=MagicMock()
++            ),
+         )
+         ch = TelegramChannel(bot_token="123:ABC")
+ 
+@@ -653,6 +659,111 @@ class TestAllowedChatIds:
+         handler.assert_called_once()
+ 
+ 
++class TestVoiceMessages:
++    """Voice notes reach handlers as audio bytes; unlisted chats never download."""
++
++    @staticmethod
++    def _registered_handlers(ch: TelegramChannel) -> dict:
++        """Run the real _poll_loop against a fake PTB; return its callbacks."""
++        registered: dict = {}
++
++        class FakeApp:
++            def add_handler(self, handler):
++                flt, callback = handler
++                registered[flt] = callback
++
++        class FakeBuilder:
++            def token(self, token):
++                return self
++
++            def build(self):
++                return FakeApp()
++
++        voice = MagicMock()
++        voice.__or__.return_value = "voice"
++        telegram_ext = SimpleNamespace(
++            ApplicationBuilder=FakeBuilder,
++            MessageHandler=lambda flt, callback: (flt, callback),
++            filters=SimpleNamespace(TEXT="text", VOICE=voice, AUDIO=MagicMock()),
++        )
++
++        async def no_polling(app, stop_event):
++            return None
++
++        with (
++            patch.dict(
++                sys.modules,
++                {
++                    "telegram": SimpleNamespace(ext=telegram_ext),
++                    "telegram.ext": telegram_ext,
++                },
++            ),
++            patch.object(ch, "_run_polling_lifecycle", new=no_polling),
++        ):
++            ch._poll_loop()
++        return registered
++
++    @staticmethod
++    def _voice_update(chat_id: int):
++        downloads: list = []
++
++        class FakeFile:
++            async def download_as_bytearray(self):
++                downloads.append(chat_id)
++                return bytearray(b"OggS-fake")
++
++        async def get_file():
++            return FakeFile()
++
++        msg = SimpleNamespace(
++            chat=SimpleNamespace(id=chat_id),
++            from_user=SimpleNamespace(id=chat_id),
++            message_id=9,
++            caption=None,
++            voice=SimpleNamespace(get_file=get_file),
++            audio=None,
++        )
++        return SimpleNamespace(message=msg), downloads
++
++    def test_voice_note_reaches_handlers_as_audio(self):
++        ch = TelegramChannel(bot_token="tok", allowed_chat_ids="111")
++        received: list = []
++        ch.on_message(received.append)
++        update, _ = self._voice_update(111)
++
++        asyncio.run(self._registered_handlers(ch)["voice"](update, None))
++
++        assert len(received) == 1
++        assert received[0].content == ""
++        assert received[0].metadata == {"audio": b"OggS-fake", "audio_format": "ogg"}
++
++    def test_voice_from_unlisted_chat_is_not_downloaded(self):
++        ch = TelegramChannel(bot_token="tok", allowed_chat_ids="111")
++        received: list = []
++        ch.on_message(received.append)
++        update, downloads = self._voice_update(999)
++
++        asyncio.run(self._registered_handlers(ch)["voice"](update, None))
++
++        assert received == []
++        assert downloads == []
++
++    def test_text_callback_is_a_coroutine(self):
++        """PTB awaits callbacks; a plain function raised TypeError after running."""
++        ch = TelegramChannel(bot_token="tok")
++        received: list = []
++        ch.on_message(received.append)
++        msg = SimpleNamespace(
++            chat=SimpleNamespace(id=5), from_user=None, message_id=1, text="oi"
++        )
++
++        asyncio.run(
++            self._registered_handlers(ch)["text"](SimpleNamespace(message=msg), None)
++        )
++
++        assert received[0].content == "oi"
++
++
+ class TestChannelAgentWiring:
+     """Tests for the channel → agent handler wired in serve.py."""
+ 
+diff --git a/tests/sdk/test_sdk.py b/tests/sdk/test_sdk.py
+index 04b02b11..3996c28c 100644
+--- a/tests/sdk/test_sdk.py
++++ b/tests/sdk/test_sdk.py
+@@ -95,6 +95,35 @@ class TestJarvisAsk:
+             assert result == "Agent response"
+             j.close()
+ 
++    def test_ask_with_history_reaches_the_model_before_the_query(self):
++        from openjarvis.agents.simple import SimpleAgent
++        from openjarvis.core.registry import AgentRegistry
++        from openjarvis.core.types import Message, Role
++
++        history = [
++            Message(role=Role.USER, content="Capital do Canadá?"),
++            Message(role=Role.ASSISTANT, content="Ottawa."),
++        ]
++        engine = _make_engine("Cerca de 1 milhão.")
++        # The import above registers it when this test runs first.
++        if not AgentRegistry.contains("simple"):
++            AgentRegistry.register_value("simple", SimpleAgent)
++        with patch("openjarvis.sdk.get_engine", return_value=("mock", engine)):
++            j = Jarvis(config=JarvisConfig(), model="test-model")
++            j.ask("E a população de lá?", agent="simple", history=history)
++            agent_messages = engine.generate.call_args.args[0]
++            j.ask("E a população de lá?", history=history)  # direct mode
++            direct_messages = engine.generate.call_args.args[0]
++            j.close()
++
++        for messages in (agent_messages, direct_messages):
++            turns = [(m.role, m.content) for m in messages if m.role != Role.SYSTEM]
++            assert turns == [
++                (Role.USER, "Capital do Canadá?"),
++                (Role.ASSISTANT, "Ottawa."),
++                (Role.USER, "E a população de lá?"),
++            ]
++
+     def test_simple_agent_ignores_tool_security_kwargs(self):
+         from openjarvis.agents.simple import SimpleAgent
+         from openjarvis.core.registry import AgentRegistry
+diff --git a/tests/tools/test_digest_collect.py b/tests/tools/test_digest_collect.py
+index 8b4a9992..e5f5f62b 100644
+--- a/tests/tools/test_digest_collect.py
++++ b/tests/tools/test_digest_collect.py
+@@ -58,3 +58,112 @@ def test_digest_collect_missing_connector():
+ 
+     assert result.success is True  # Partial success
+     assert "not available" in result.content
++
++
++def test_clean_preview_strips_html_links_and_padding():
++    from openjarvis.tools.digest_collect import _clean_preview
++
++    raw = (
++        "Tenha controle <!--[if !mso]><!--> <b>agora</b>\n"
++        "Visit https://github.com/settings for more ͏­​ details"
++    )
++
++    assert _clean_preview(raw) == "Tenha controle agora Visit for more details"
++    assert _clean_preview("palavra " * 50, limit=20).endswith("…")
++
++
++def test_gmail_sender_uses_display_name():
++    from openjarvis.tools.digest_collect import _format_gmail
++
++    doc = Document(
++        doc_id="g-1",
++        source="gmail",
++        doc_type="email",
++        content="",
++        title="Hi",
++        author="Acme <no-reply@example.com>",
++        timestamp=datetime.now(),
++    )
++
++    assert "From: Acme —" in _format_gmail(doc)
++
++
++def test_digest_collect_respects_max_per_source_and_calendar_horizon():
++    from datetime import timedelta
++
++    from openjarvis.tools.digest_collect import DigestCollectTool
++
++    now = datetime.now()
++    docs = [
++        Document(
++            doc_id=f"ev-{i}",
++            source="gcalendar",
++            doc_type="event",
++            content="",
++            title=f"Event {i}",
++            timestamp=now + timedelta(days=365 * i),
++        )
++        for i in range(4)
++    ]
++    mock_connector = MagicMock()
++    mock_connector.return_value.is_connected.return_value = True
++    mock_connector.return_value.sync.return_value = docs
++
++    with patch.object(ConnectorRegistry, "contains", return_value=True):
++        with patch.object(ConnectorRegistry, "get", return_value=mock_connector):
++            result = DigestCollectTool().execute(
++                sources=["gcalendar"], max_per_source=2
++            )
++
++    # Only today's occurrence survives; yearly repeats are past the horizon.
++    assert result.metadata["total_items"] == 1
++    assert "Event 0" in result.content
++
++
++def test_format_date_works_on_windows():
++    from openjarvis.tools.digest_collect import _format_date
++
++    assert _format_date(datetime(2026, 4, 1)) == "April 1"
++
++
++def test_collapse_duplicates_merges_only_identical_emails():
++    from openjarvis.tools.digest_collect import DigestCollectTool
++
++    def email(i, author, title, content=""):
++        return Document(
++            doc_id=f"g-{i}",
++            source="gmail",
++            doc_type="email",
++            content=content,
++            title=title,
++            author=author,
++            timestamp=datetime.now(),
++        )
++
++    github = "Forge <noreply@example.com>"
++    docs = [
++        email(1, "Cloud <no-reply@example.com>", "Dados com Alfa"),
++        email(2, github, "OAuth app", "App Gama authorized"),
++        email(3, "Cloud <no-reply@example.com>", "Dados com Alfa"),
++        email(4, "Cloud <no-reply@example.com>", "Dados com Beta"),
++        # Same subject, different event: must stay separate.
++        email(5, github, "OAuth app", "App Delta authorized"),
++    ]
++    mock_connector = MagicMock()
++    mock_connector.return_value.is_connected.return_value = True
++    mock_connector.return_value.sync.return_value = docs
++
++    with patch.object(ConnectorRegistry, "contains", return_value=True):
++        with patch.object(ConnectorRegistry, "get", return_value=mock_connector):
++            merged = DigestCollectTool().execute(
++                sources=["gmail"], collapse_duplicates=True
++            )
++            untouched = DigestCollectTool().execute(sources=["gmail"])
++
++    assert merged.metadata["total_items"] == 4
++    assert '"Dados com Alfa (x2)"' in merged.content
++    assert "g-3" not in merged.content
++    assert "Gama" in merged.content and "Delta" in merged.content
++    assert merged.content.index("Alfa") < merged.content.index("OAuth")
++    # Off by default: other agents act on every email id.
++    assert untouched.metadata["total_items"] == 5

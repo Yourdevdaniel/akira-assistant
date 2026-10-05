@@ -1,0 +1,27 @@
+
+──────────────────────────────────────────────────────────────────────
+qwen3:4b  (thinking: off)
+──────────────────────────────────────────────────────────────────────
+  OK  1/40   35.3s  marca reunião com o João quinta às 15h
+  OK  2/40   55.7s  bota no calendário dentista amanhã de manhã às 9
+  OK  3/40   57.5s  agenda um almoço com a Carla dia 3 do mês que vem me
+  ~   4/40   66.8s  tenho consulta semana que vem terça às 8 e meia da m
+  OK  5/40   67.9s  o que eu tenho amanhã?
+  OK  6/40   66.8s  me mostra minha agenda dessa semana
+  ~   7/40   66.5s  tem alguma coisa marcada pra sexta?
+  OK  8/40   56.8s  quais são meus compromissos de hoje
+  X   9/40   64.6s  adia a reunião com o João pra sexta, mesma hora
+  ~  10/40   69.8s  muda o almoço de quinta pras 13h
+  OK 11/40   54.8s  troca o local da reunião de amanhã pro escritório
+  OK 12/40   60.3s  cancela o dentista de amanhã
+  ~  13/40   55.4s  me lembra de pagar o boleto da internet até sexta
+  OK 14/40   48.8s  preciso comprar ração pro cachorro
+  X  15/40   88.3s  anota aí: revisar o contrato do fornecedor, priorida
+  OK 16/40   56.4s  tenho que ligar pro contador amanhã
+  OK 17/40   50.2s  já paguei o boleto da internet
+  OK 18/40   52.3s  terminei de revisar o contrato
+  OK 19/40   50.4s  marca a ração do cachorro como feita
+  OK 20/40   55.7s  resolvi aquilo do contador
+  OK 21/40   48.4s  o que que tá pendente?
+  OK 22/40   59.6s  quais tarefas vencem essa semana
+  OK 23/40   48.5s  me mostra só as tarefas de prioridade alta

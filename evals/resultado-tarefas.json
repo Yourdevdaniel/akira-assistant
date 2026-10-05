@@ -1,0 +1,1242 @@
+[
+  {
+    "modelo": "llama3.2:3b",
+    "resultados": [
+      {
+        "frase": "preciso levar o carro na revisão até dia 30",
+        "esperado": "criar",
+        "saida": {
+          "acao": "criar",
+          "titulo": "levar o carro na revisão",
+          "prazo": "até dia 30",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 1.11,
+        "novo": false
+      },
+      {
+        "frase": "anota aí: renovar a CNH, prioridade alta",
+        "esperado": "criar",
+        "saida": {
+          "acao": "criar",
+          "titulo": "renovar a CNH",
+          "prazo": "",
+          "prioridade": "alta",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 0.75,
+        "novo": false
+      },
+      {
+        "frase": "tenho que mandar o relatório pro Paulo amanhã",
+        "esperado": "criar",
+        "saida": {
+          "acao": "criar",
+          "titulo": "mandar o relatório pro Paulo",
+          "prazo": "amanhã",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 0.85,
+        "novo": false
+      },
+      {
+        "frase": "me lembra de comprar presente pra minha mãe no sábado",
+        "esperado": "criar",
+        "saida": {
+          "acao": "criar",
+          "titulo": "comprar presente pra minha mãe",
+          "prazo": "sábado",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 0.81,
+        "novo": false
+      },
+      {
+        "frase": "Akira, anota pra mim: agendar dentista semana que vem",
+        "esperado": "criar",
+        "saida": {
+          "acao": "criar",
+          "titulo": "agendar dentista",
+          "prazo": "semana que vem",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 0.81,
+        "novo": false
+      },
+      {
+        "frase": "coloca na lista cancelar a assinatura da academia",
+        "esperado": "criar",
+        "saida": {
+          "acao": "criar",
+          "titulo": "cancelar a assinatura da academia",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 0.78,
+        "novo": false
+      },
+      {
+        "frase": "não posso esquecer de pagar o IPVA até o fim do mês, é urgente",
+        "esperado": "criar",
+        "saida": {
+          "acao": "criar",
+          "titulo": "pagar o IPVA",
+          "prazo": "fim do mês",
+          "prioridade": "alta",
+          "busca": "pagar o IPVA"
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 0.95,
+        "novo": false
+      },
+      {
+        "frase": "preciso responder o email do banco hoje",
+        "esperado": "criar",
+        "saida": {
+          "acao": "criar",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": "responder o email do banco"
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 0.7,
+        "novo": false
+      },
+      {
+        "frase": "adiciona tarefa: trocar a lâmpada da cozinha",
+        "esperado": "criar",
+        "saida": {
+          "acao": "criar",
+          "titulo": "trocar a lãmpada da cozinha",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 0.87,
+        "novo": false
+      },
+      {
+        "frase": "tenho que ir no cartório na quinta",
+        "esperado": "criar",
+        "saida": {
+          "acao": "criar",
+          "titulo": "ir no cartório",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 0.67,
+        "novo": false
+      },
+      {
+        "frase": "Anota aí, marcar o dentista amanhã.",
+        "esperado": "criar",
+        "saida": {
+          "acao": "criar",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": "dentista amanhã"
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 0.71,
+        "novo": false
+      },
+      {
+        "frase": "o que tem na minha lista?",
+        "esperado": "listar",
+        "saida": {
+          "acao": "listar",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 0.58,
+        "novo": false
+      },
+      {
+        "frase": "quais são minhas tarefas?",
+        "esperado": "listar",
+        "saida": {
+          "acao": "listar",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 0.58,
+        "novo": false
+      },
+      {
+        "frase": "o que ficou pendente?",
+        "esperado": "listar",
+        "saida": {
+          "acao": "listar",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 0.61,
+        "novo": false
+      },
+      {
+        "frase": "me mostra as tarefas",
+        "esperado": "listar",
+        "saida": {
+          "acao": "listar",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 0.59,
+        "novo": false
+      },
+      {
+        "frase": "tem alguma coisa pra eu fazer hoje?",
+        "esperado": "listar",
+        "saida": {
+          "acao": "listar",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 0.61,
+        "novo": false
+      },
+      {
+        "frase": "já levei o carro na revisão",
+        "esperado": "concluir",
+        "saida": {
+          "acao": "concluir",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": "levei o carro na revisao"
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 0.75,
+        "novo": false
+      },
+      {
+        "frase": "paguei o IPVA",
+        "esperado": "concluir",
+        "saida": {
+          "acao": "concluir",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": "paguei o IPVA"
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 0.68,
+        "novo": false
+      },
+      {
+        "frase": "pronto, mandei o relatório",
+        "esperado": "concluir",
+        "saida": {
+          "acao": "concluir",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": "mandei o relatório"
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 0.69,
+        "novo": false
+      },
+      {
+        "frase": "consegui renovar a CNH",
+        "esperado": "concluir",
+        "saida": {
+          "acao": "concluir",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": "renovar a CNH"
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 0.69,
+        "novo": false
+      },
+      {
+        "frase": "terminei a da lâmpada",
+        "esperado": "concluir",
+        "saida": {
+          "acao": "concluir",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": "da lâmpada"
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 0.68,
+        "novo": false
+      },
+      {
+        "frase": "tira da lista a academia, desisti",
+        "esperado": "apagar",
+        "saida": {
+          "acao": "apagar",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": "academia"
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 0.62,
+        "novo": false
+      },
+      {
+        "frase": "apaga a tarefa do cartório",
+        "esperado": "apagar",
+        "saida": {
+          "acao": "apagar",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 0.58,
+        "novo": false
+      },
+      {
+        "frase": "esquece o presente da minha mãe, não precisa mais",
+        "esperado": "apagar",
+        "saida": {
+          "acao": "apagar",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": "presente da minha mãe"
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 0.72,
+        "novo": false
+      },
+      {
+        "frase": "qual a capital da Austrália?",
+        "esperado": "conversa",
+        "saida": {
+          "acao": "conversa",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 0.61,
+        "novo": false
+      },
+      {
+        "frase": "bom dia, tudo bem?",
+        "esperado": "conversa",
+        "saida": {
+          "acao": "conversa",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 0.63,
+        "novo": false
+      },
+      {
+        "frase": "me conta uma piada",
+        "esperado": "conversa",
+        "saida": {
+          "acao": "conversa",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 0.63,
+        "novo": false
+      },
+      {
+        "frase": "preciso de uma receita de bolo de cenoura",
+        "esperado": "conversa",
+        "saida": {
+          "acao": "conversa",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": "receita de bolo de cenoura"
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 0.79,
+        "novo": false
+      },
+      {
+        "frase": "quanto tempo leva pra cozinhar arroz?",
+        "esperado": "conversa",
+        "saida": {
+          "acao": "conversa",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 0.65,
+        "novo": false
+      },
+      {
+        "frase": "tenho que admitir que hoje foi um dia difícil",
+        "esperado": "conversa",
+        "saida": {
+          "acao": "conversa",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 0.61,
+        "novo": false
+      },
+      {
+        "frase": "o que você acha de Python?",
+        "esperado": "conversa",
+        "saida": {
+          "acao": "conversa",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 0.67,
+        "novo": false
+      },
+      {
+        "frase": "vou ter que buscar as roupas na lavanderia sexta",
+        "esperado": "criar",
+        "saida": {
+          "acao": "criar",
+          "titulo": "",
+          "prazo": "sexta",
+          "prioridade": "normal",
+          "busca": "roupas na lavanderia"
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 0.8,
+        "novo": true
+      },
+      {
+        "frase": "anota: marcar a revisão da moto",
+        "esperado": "criar",
+        "saida": {
+          "acao": "criar",
+          "titulo": "marcar a revisão da moto",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 0.8,
+        "novo": true
+      },
+      {
+        "frase": "me lembra de tomar a vacina da gripe dia 5",
+        "esperado": "criar",
+        "saida": {
+          "acao": "criar",
+          "titulo": "tomar a vacina da gripe",
+          "prazo": "dia 5",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 0.86,
+        "novo": true
+      },
+      {
+        "frase": "falta alguma coisa na minha lista?",
+        "esperado": "listar",
+        "saida": {
+          "acao": "listar",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 0.63,
+        "novo": true
+      },
+      {
+        "frase": "o que eu preciso fazer essa semana?",
+        "esperado": "listar",
+        "saida": {
+          "acao": "listar",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 0.61,
+        "novo": true
+      },
+      {
+        "frase": "busquei as roupas na lavanderia",
+        "esperado": "concluir",
+        "saida": {
+          "acao": "concluir",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": "busquei as roupas na lavanderia"
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 0.8,
+        "novo": true
+      },
+      {
+        "frase": "a vacina eu já tomei",
+        "esperado": "concluir",
+        "saida": {
+          "acao": "concluir",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": "vacina"
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 0.64,
+        "novo": true
+      },
+      {
+        "frase": "remove a da moto, vendi ela",
+        "esperado": "apagar",
+        "saida": {
+          "acao": "apagar",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": "moto"
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 0.63,
+        "novo": true
+      },
+      {
+        "frase": "preciso que você me explique o que é inflação",
+        "esperado": "conversa",
+        "saida": {
+          "acao": "conversa",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": "inflação"
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 0.71,
+        "novo": true
+      },
+      {
+        "frase": "tenho que dizer, você tá mandando bem",
+        "esperado": "conversa",
+        "saida": {
+          "acao": "conversa",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 0.62,
+        "novo": true
+      }
+    ]
+  },
+  {
+    "modelo": "qwen2.5:7b",
+    "resultados": [
+      {
+        "frase": "preciso levar o carro na revisão até dia 30",
+        "esperado": "criar",
+        "saida": {
+          "acao": "criar",
+          "titulo": "levar o carro na revisão",
+          "prazo": "até dia 30",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 4.37,
+        "novo": false
+      },
+      {
+        "frase": "anota aí: renovar a CNH, prioridade alta",
+        "esperado": "criar",
+        "saida": {
+          "acao": "criar",
+          "titulo": "renovar a CNH",
+          "prazo": "",
+          "prioridade": "alta",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 3.46,
+        "novo": false
+      },
+      {
+        "frase": "tenho que mandar o relatório pro Paulo amanhã",
+        "esperado": "criar",
+        "saida": {
+          "acao": "criar",
+          "titulo": "mandar o relatório",
+          "prazo": "amanhã",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 3.69,
+        "novo": false
+      },
+      {
+        "frase": "me lembra de comprar presente pra minha mãe no sábado",
+        "esperado": "criar",
+        "saida": {
+          "acao": "criar",
+          "titulo": "comprar presente pra minha mãe",
+          "prazo": "no sábado",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 3.56,
+        "novo": false
+      },
+      {
+        "frase": "Akira, anota pra mim: agendar dentista semana que vem",
+        "esperado": "criar",
+        "saida": {
+          "acao": "criar",
+          "titulo": "agendar dentista",
+          "prazo": "semana que vem",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 3.53,
+        "novo": false
+      },
+      {
+        "frase": "coloca na lista cancelar a assinatura da academia",
+        "esperado": "criar",
+        "saida": {
+          "acao": "criar",
+          "titulo": "cancelar a assinatura da academia",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 3.25,
+        "novo": false
+      },
+      {
+        "frase": "não posso esquecer de pagar o IPVA até o fim do mês, é urgente",
+        "esperado": "criar",
+        "saida": {
+          "acao": "criar",
+          "titulo": "pagar o IPVA",
+          "prazo": "fim do mês",
+          "prioridade": "alta",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 3.95,
+        "novo": false
+      },
+      {
+        "frase": "preciso responder o email do banco hoje",
+        "esperado": "criar",
+        "saida": {
+          "acao": "criar",
+          "titulo": "responder o email do banco",
+          "prazo": "hoje",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 3.29,
+        "novo": false
+      },
+      {
+        "frase": "adiciona tarefa: trocar a lâmpada da cozinha",
+        "esperado": "criar",
+        "saida": {
+          "acao": "criar",
+          "titulo": "trocar a lâmpada da cozinha",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 3.72,
+        "novo": false
+      },
+      {
+        "frase": "tenho que ir no cartório na quinta",
+        "esperado": "criar",
+        "saida": {
+          "acao": "criar",
+          "titulo": "ir no cartório",
+          "prazo": "na quinta",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 3.9,
+        "novo": false
+      },
+      {
+        "frase": "Anota aí, marcar o dentista amanhã.",
+        "esperado": "criar",
+        "saida": {
+          "acao": "criar",
+          "titulo": "marcar o dentista",
+          "prazo": "amanhã",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 3.97,
+        "novo": false
+      },
+      {
+        "frase": "o que tem na minha lista?",
+        "esperado": "listar",
+        "saida": {
+          "acao": "listar",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 2.96,
+        "novo": false
+      },
+      {
+        "frase": "quais são minhas tarefas?",
+        "esperado": "listar",
+        "saida": {
+          "acao": "listar",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 3.0,
+        "novo": false
+      },
+      {
+        "frase": "o que ficou pendente?",
+        "esperado": "listar",
+        "saida": {
+          "acao": "listar",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 2.94,
+        "novo": false
+      },
+      {
+        "frase": "me mostra as tarefas",
+        "esperado": "listar",
+        "saida": {
+          "acao": "listar",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 2.9,
+        "novo": false
+      },
+      {
+        "frase": "tem alguma coisa pra eu fazer hoje?",
+        "esperado": "listar",
+        "saida": {
+          "acao": "listar",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 2.79,
+        "novo": false
+      },
+      {
+        "frase": "já levei o carro na revisão",
+        "esperado": "concluir",
+        "saida": {
+          "acao": "concluir",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": "levei o carro na revisão"
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 3.3,
+        "novo": false
+      },
+      {
+        "frase": "paguei o IPVA",
+        "esperado": "concluir",
+        "saida": {
+          "acao": "concluir",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": "paguei o IPVA"
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 3.09,
+        "novo": false
+      },
+      {
+        "frase": "pronto, mandei o relatório",
+        "esperado": "concluir",
+        "saida": {
+          "acao": "concluir",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": "mandei o relatório"
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 3.31,
+        "novo": false
+      },
+      {
+        "frase": "consegui renovar a CNH",
+        "esperado": "concluir",
+        "saida": {
+          "acao": "concluir",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": "renovar a CNH"
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 3.39,
+        "novo": false
+      },
+      {
+        "frase": "terminei a da lâmpada",
+        "esperado": "concluir",
+        "saida": {
+          "acao": "concluir",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": "terminei a da lâmpada"
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 3.68,
+        "novo": false
+      },
+      {
+        "frase": "tira da lista a academia, desisti",
+        "esperado": "apagar",
+        "saida": {
+          "acao": "apagar",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": "academia"
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 2.92,
+        "novo": false
+      },
+      {
+        "frase": "apaga a tarefa do cartório",
+        "esperado": "apagar",
+        "saida": {
+          "acao": "apagar",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": "cartório"
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 2.61,
+        "novo": false
+      },
+      {
+        "frase": "esquece o presente da minha mãe, não precisa mais",
+        "esperado": "apagar",
+        "saida": {
+          "acao": "apagar",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": "presente da minha mãe"
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 3.12,
+        "novo": false
+      },
+      {
+        "frase": "qual a capital da Austrália?",
+        "esperado": "conversa",
+        "saida": {
+          "acao": "conversa",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 2.86,
+        "novo": false
+      },
+      {
+        "frase": "bom dia, tudo bem?",
+        "esperado": "conversa",
+        "saida": {
+          "acao": "conversa",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 2.66,
+        "novo": false
+      },
+      {
+        "frase": "me conta uma piada",
+        "esperado": "conversa",
+        "saida": {
+          "acao": "conversa",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 2.72,
+        "novo": false
+      },
+      {
+        "frase": "preciso de uma receita de bolo de cenoura",
+        "esperado": "conversa",
+        "saida": {
+          "acao": "conversa",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 3.0,
+        "novo": false
+      },
+      {
+        "frase": "quanto tempo leva pra cozinhar arroz?",
+        "esperado": "conversa",
+        "saida": {
+          "acao": "conversa",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 2.78,
+        "novo": false
+      },
+      {
+        "frase": "tenho que admitir que hoje foi um dia difícil",
+        "esperado": "conversa",
+        "saida": {
+          "acao": "conversa",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 2.53,
+        "novo": false
+      },
+      {
+        "frase": "o que você acha de Python?",
+        "esperado": "conversa",
+        "saida": {
+          "acao": "conversa",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 2.55,
+        "novo": false
+      },
+      {
+        "frase": "vou ter que buscar as roupas na lavanderia sexta",
+        "esperado": "criar",
+        "saida": {
+          "acao": "criar",
+          "titulo": "buscar as roupas na lavanderia",
+          "prazo": "sexta",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 3.94,
+        "novo": true
+      },
+      {
+        "frase": "anota: marcar a revisão da moto",
+        "esperado": "criar",
+        "saida": {
+          "acao": "criar",
+          "titulo": "marcar a revisão da moto",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 3.54,
+        "novo": true
+      },
+      {
+        "frase": "me lembra de tomar a vacina da gripe dia 5",
+        "esperado": "criar",
+        "saida": {
+          "acao": "criar",
+          "titulo": "tomar a vacina da gripe",
+          "prazo": "dia 5",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 3.86,
+        "novo": true
+      },
+      {
+        "frase": "falta alguma coisa na minha lista?",
+        "esperado": "listar",
+        "saida": {
+          "acao": "listar",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 2.53,
+        "novo": true
+      },
+      {
+        "frase": "o que eu preciso fazer essa semana?",
+        "esperado": "listar",
+        "saida": {
+          "acao": "listar",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 2.46,
+        "novo": true
+      },
+      {
+        "frase": "busquei as roupas na lavanderia",
+        "esperado": "concluir",
+        "saida": {
+          "acao": "concluir",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": "busquei as roupas na lavanderia"
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 3.35,
+        "novo": true
+      },
+      {
+        "frase": "a vacina eu já tomei",
+        "esperado": "concluir",
+        "saida": {
+          "acao": "concluir",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": "vacina"
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 2.53,
+        "novo": true
+      },
+      {
+        "frase": "remove a da moto, vendi ela",
+        "esperado": "apagar",
+        "saida": {
+          "acao": "apagar",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": "moto"
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 2.8,
+        "novo": true
+      },
+      {
+        "frase": "preciso que você me explique o que é inflação",
+        "esperado": "conversa",
+        "saida": {
+          "acao": "conversa",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 2.82,
+        "novo": true
+      },
+      {
+        "frase": "tenho que dizer, você tá mandando bem",
+        "esperado": "conversa",
+        "saida": {
+          "acao": "conversa",
+          "titulo": "",
+          "prazo": "",
+          "prioridade": "normal",
+          "busca": ""
+        },
+        "acao_ok": true,
+        "problemas": [],
+        "segundos": 2.77,
+        "novo": true
+      }
+    ]
+  }
+]

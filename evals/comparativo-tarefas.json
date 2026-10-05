@@ -1,0 +1,1174 @@
+[
+  {
+    "modelo": "llama3.2:3b",
+    "think": false,
+    "resultados": [
+      {
+        "id": 1,
+        "frase": "marca reunião com o João quinta às 15h",
+        "esperado": "criar_evento",
+        "veio": "editar_evento",
+        "args": {
+          "busca": "reunião com João quinta ás 15h",
+          "cancelar": false,
+          "novo_inicio": "2026-09-25T15:00",
+          "novo_local": "",
+          "novo_titulo": "Reunião com João"
+        },
+        "ferramenta_ok": false,
+        "args_ok": false,
+        "problemas": [
+          "ferramenta: esperado criar_evento, veio editar_evento"
+        ],
+        "segundos": 15.32
+      },
+      {
+        "id": 2,
+        "frase": "bota no calendário dentista amanhã de manhã às 9",
+        "esperado": "criar_evento",
+        "veio": "criar_evento",
+        "args": {
+          "inicio": "2026-09-22T09:00",
+          "local": "Dentista",
+          "participantes": "[]",
+          "titulo": "Bota no calendário dentista amanhç de manhçá"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 3.53
+      },
+      {
+        "id": 3,
+        "frase": "agenda um almoço com a Carla dia 3 do mês que vem meio-dia",
+        "esperado": "criar_evento",
+        "veio": "criar_evento",
+        "args": {
+          "titulo": "almoço com Carla",
+          "inicio": "2026-10-03T12:00:00",
+          "local": "",
+          "participantes": [
+            "Carla"
+          ]
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 3.03
+      },
+      {
+        "id": 4,
+        "frase": "tenho consulta semana que vem terça às 8 e meia da manhã",
+        "esperado": "criar_evento",
+        "veio": "criar_evento",
+        "args": {
+          "titulo": "consulta",
+          "inicio": "2026-09-28T08:30",
+          "participantes": [
+            "pessoa1",
+            "pessoa2"
+          ]
+        },
+        "ferramenta_ok": true,
+        "args_ok": false,
+        "problemas": [
+          "inicio: esperado {'prefixo': '2026-09-29T08:30'}, veio '2026-09-28T08:30'"
+        ],
+        "segundos": 2.96
+      },
+      {
+        "id": 5,
+        "frase": "o que eu tenho amanhã?",
+        "esperado": "listar_eventos",
+        "veio": "listar_tarefas",
+        "args": {
+          "prazo_ate": "2026-09-22"
+        },
+        "ferramenta_ok": false,
+        "args_ok": false,
+        "problemas": [
+          "ferramenta: esperado listar_eventos, veio listar_tarefas"
+        ],
+        "segundos": 2.75
+      },
+      {
+        "id": 6,
+        "frase": "me mostra minha agenda dessa semana",
+        "esperado": "listar_eventos",
+        "veio": "listar_eventos",
+        "args": {
+          "inicio": "2026-09-19",
+          "fim": "2026-09-25"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 2.71
+      },
+      {
+        "id": 7,
+        "frase": "tem alguma coisa marcada pra sexta?",
+        "esperado": "listar_eventos",
+        "veio": "listar_eventos",
+        "args": {
+          "inicio": "2026-09-21",
+          "fim": "2026-09-25"
+        },
+        "ferramenta_ok": true,
+        "args_ok": false,
+        "problemas": [
+          "inicio: esperado {'prefixo': '2026-09-25'}, veio '2026-09-21'"
+        ],
+        "segundos": 2.77
+      },
+      {
+        "id": 8,
+        "frase": "quais são meus compromissos de hoje",
+        "esperado": "listar_eventos",
+        "veio": "listar_eventos",
+        "args": {
+          "inicio": "2026-09-21",
+          "fim": "2026-09-21"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 2.7
+      },
+      {
+        "id": 9,
+        "frase": "adia a reunião com o João pra sexta, mesma hora",
+        "esperado": "editar_evento",
+        "veio": "editar_evento",
+        "args": {
+          "busca": "reunião com João",
+          "cancelar": false,
+          "novo_inicio": "2026-09-24T15:00",
+          "novo_local": "",
+          "novo_titulo": ""
+        },
+        "ferramenta_ok": true,
+        "args_ok": false,
+        "problemas": [
+          "novo_inicio: esperado {'prefixo': '2026-09-25'}, veio '2026-09-24T15:00'"
+        ],
+        "segundos": 3.18
+      },
+      {
+        "id": 10,
+        "frase": "muda o almoço de quinta pras 13h",
+        "esperado": "editar_evento",
+        "veio": "editar_evento",
+        "args": {
+          "busca": "almoço de quinta",
+          "cancelar": false,
+          "novo_titulo": "almoço de quinta (13h)",
+          "novo_inicio": "2026-09-24T13:00"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 3.37
+      },
+      {
+        "id": 11,
+        "frase": "troca o local da reunião de amanhã pro escritório",
+        "esperado": "editar_evento",
+        "veio": "editar_evento",
+        "args": {
+          "novo_local": "escritório",
+          "novo_titulo": null,
+          "novo_inicio": null,
+          "busca": "reunião com João",
+          "cancelar": false
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 3.07
+      },
+      {
+        "id": 12,
+        "frase": "cancela o dentista de amanhã",
+        "esperado": "editar_evento",
+        "veio": "editar_evento",
+        "args": {
+          "novo_titulo": "Cancelamento de reunião com o dentista de amanhåo",
+          "busca": "reunião com o dentista de amanhåo",
+          "cancelar": false
+        },
+        "ferramenta_ok": true,
+        "args_ok": false,
+        "problemas": [
+          "cancelar: esperado {'igual': True}, veio False"
+        ],
+        "segundos": 3.32
+      },
+      {
+        "id": 13,
+        "frase": "me lembra de pagar o boleto da internet até sexta",
+        "esperado": "criar_tarefa",
+        "veio": "concluir_tarefa",
+        "args": {
+          "busca": "boleto da internet"
+        },
+        "ferramenta_ok": false,
+        "args_ok": false,
+        "problemas": [
+          "ferramenta: esperado criar_tarefa, veio concluir_tarefa"
+        ],
+        "segundos": 2.58
+      },
+      {
+        "id": 14,
+        "frase": "preciso comprar ração pro cachorro",
+        "esperado": "criar_tarefa",
+        "veio": "criar_tarefa",
+        "args": {
+          "titulo": "Comprar ração para o cachorro",
+          "prazo": "",
+          "prioridade": "alta"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 2.73
+      },
+      {
+        "id": 15,
+        "frase": "anota aí: revisar o contrato do fornecedor, prioridade alta, até quarta",
+        "esperado": "criar_tarefa",
+        "veio": "criar_tarefa",
+        "args": {
+          "titulo": "Revisar o contrato do fornecedor",
+          "prazo": "2026-09-24",
+          "prioridade": "alta"
+        },
+        "ferramenta_ok": true,
+        "args_ok": false,
+        "problemas": [
+          "prazo: esperado {'prefixo': '2026-09-23'}, veio '2026-09-24'"
+        ],
+        "segundos": 2.98
+      },
+      {
+        "id": 16,
+        "frase": "tenho que ligar pro contador amanhã",
+        "esperado": "criar_tarefa",
+        "veio": "criar_tarefa",
+        "args": {
+          "titulo": "Ligar para o contador amanhçã",
+          "prazo": "2026-09-22",
+          "prioridade": "alta"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 2.95
+      },
+      {
+        "id": 17,
+        "frase": "já paguei o boleto da internet",
+        "esperado": "concluir_tarefa",
+        "veio": "concluir_tarefa",
+        "args": {
+          "busca": "boleto da internet"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 2.54
+      },
+      {
+        "id": 18,
+        "frase": "terminei de revisar o contrato",
+        "esperado": "concluir_tarefa",
+        "veio": "concluir_tarefa",
+        "args": {
+          "busca": "terminei de revisar o contrato"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 2.67
+      },
+      {
+        "id": 19,
+        "frase": "marca a ração do cachorro como feita",
+        "esperado": "concluir_tarefa",
+        "veio": "concluir_tarefa",
+        "args": {
+          "busca": "marca a ração do cachorro como feita"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 2.73
+      },
+      {
+        "id": 20,
+        "frase": "resolvi aquilo do contador",
+        "esperado": "concluir_tarefa",
+        "veio": "concluir_tarefa",
+        "args": {
+          "busca": "resolvi aquilo do contador"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 2.72
+      },
+      {
+        "id": 21,
+        "frase": "o que que tá pendente?",
+        "esperado": "listar_tarefas",
+        "veio": "listar_tarefas",
+        "args": {
+          "prioridade": "media"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 2.57
+      },
+      {
+        "id": 22,
+        "frase": "quais tarefas vencem essa semana",
+        "esperado": "listar_tarefas",
+        "veio": "listar_tarefas",
+        "args": {
+          "prazo_ate": "2026-09-25"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 2.66
+      },
+      {
+        "id": 23,
+        "frase": "me mostra só as tarefas de prioridade alta",
+        "esperado": "listar_tarefas",
+        "veio": "listar_tarefas",
+        "args": {
+          "prioridade": "alta"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 2.52
+      },
+      {
+        "id": 24,
+        "frase": "tem alguma coisa atrasada?",
+        "esperado": "listar_tarefas",
+        "veio": "listar_tarefas",
+        "args": {
+          "status": "atrasada"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 2.55
+      },
+      {
+        "id": 25,
+        "frase": "anota que o Bruno falou que o prazo do projeto mudou pra novembro",
+        "esperado": "criar_nota",
+        "veio": "concluir_tarefa",
+        "args": {
+          "busca": "o Bruno falou que o prazo do projeto mudou pra novembro"
+        },
+        "ferramenta_ok": false,
+        "args_ok": false,
+        "problemas": [
+          "ferramenta: esperado criar_nota, veio concluir_tarefa"
+        ],
+        "segundos": 2.87
+      },
+      {
+        "id": 26,
+        "frase": "faz uma nota: ideia de usar o Xeon como servidor do assistente",
+        "esperado": "criar_nota",
+        "veio": "criar_nota",
+        "args": {
+          "conteudo": "ideia de usar o Xeon como servidor do assistente"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 2.74
+      },
+      {
+        "id": 27,
+        "frase": "guarda isso: o wifi do escritório é rede CasaNet, canal 6",
+        "esperado": "criar_nota",
+        "veio": "criar_nota",
+        "args": {
+          "conteudo": "o wifi do escritório é rede CasaNet, canal 6"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 2.72
+      },
+      {
+        "id": 28,
+        "frase": "registra aí que a reunião com a Marina ficou de continuar semana que vem",
+        "esperado": "criar_nota",
+        "veio": "editar_evento",
+        "args": {
+          "cancelar": false,
+          "novo_titulo": null,
+          "novo_local": null,
+          "novo_inicio": null,
+          "busca": "reunião com a Marina"
+        },
+        "ferramenta_ok": false,
+        "args_ok": false,
+        "problemas": [
+          "ferramenta: esperado criar_nota, veio editar_evento"
+        ],
+        "segundos": 3.21
+      },
+      {
+        "id": 29,
+        "frase": "o que eu anotei sobre o projeto do Bruno?",
+        "esperado": "buscar_notas",
+        "veio": "buscar_notas",
+        "args": {
+          "termo": "projeto do Bruno"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 2.59
+      },
+      {
+        "id": 30,
+        "frase": "procura minhas notas sobre orçamento",
+        "esperado": "buscar_notas",
+        "veio": "buscar_notas",
+        "args": {
+          "termo": "orçamento"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 2.6
+      },
+      {
+        "id": 31,
+        "frase": "acha aquela nota da reunião com a Marina",
+        "esperado": "buscar_notas",
+        "veio": "buscar_notas",
+        "args": {
+          "termo": "reunião com a Marina"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 2.73
+      },
+      {
+        "id": 32,
+        "frase": "eu escrevi alguma coisa sobre o Xeon?",
+        "esperado": "buscar_notas",
+        "veio": "buscar_notas",
+        "args": {
+          "termo": "Xeon"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 2.51
+      },
+      {
+        "id": 33,
+        "frase": "resume os emails de hoje",
+        "esperado": "resumir_email",
+        "veio": "resumir_email",
+        "args": {
+          "periodo": "hoje"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 2.65
+      },
+      {
+        "id": 34,
+        "frase": "me fala o que chegou do Banco Exemplo",
+        "esperado": "resumir_email",
+        "veio": "buscar_notas",
+        "args": {
+          "termo": "Banco Exemplo"
+        },
+        "ferramenta_ok": false,
+        "args_ok": false,
+        "problemas": [
+          "ferramenta: esperado resumir_email, veio buscar_notas"
+        ],
+        "segundos": 2.6
+      },
+      {
+        "id": 35,
+        "frase": "tem algum email importante que eu não respondi?",
+        "esperado": "resumir_email",
+        "veio": "resumir_email",
+        "args": {
+          "remetente": "",
+          "sem_resposta": true,
+          "assunto": "",
+          "periodo": "hoje"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 2.73
+      },
+      {
+        "id": 36,
+        "frase": "resume aquela thread com o fornecedor",
+        "esperado": "resumir_email",
+        "veio": "buscar_notas",
+        "args": {
+          "termo": "fornecedor"
+        },
+        "ferramenta_ok": false,
+        "args_ok": false,
+        "problemas": [
+          "ferramenta: esperado resumir_email, veio buscar_notas"
+        ],
+        "segundos": 2.65
+      },
+      {
+        "id": 37,
+        "frase": "responde pro João que eu confirmo a reunião de quinta",
+        "esperado": "rascunhar_email",
+        "veio": "editar_evento",
+        "args": {
+          "busca": "reunião de quinta",
+          "cancelar": false,
+          "novo_titulo": "Reunião confirmada"
+        },
+        "ferramenta_ok": false,
+        "args_ok": false,
+        "problemas": [
+          "ferramenta: esperado rascunhar_email, veio editar_evento"
+        ],
+        "segundos": 3.07
+      },
+      {
+        "id": 38,
+        "frase": "escreve um email pro contador pedindo o balanço do mês",
+        "esperado": "rascunhar_email",
+        "veio": "rascunhar_email",
+        "args": {
+          "destinatario": "contador",
+          "corpo": "Obrigado, gostaria de solicitar o balanço do més, por favor.",
+          "assunto": "Solicitação de balanço do més"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 3.68
+      },
+      {
+        "id": 39,
+        "frase": "rascunha uma resposta pra Marina dizendo que eu vejo isso amanhã",
+        "esperado": "rascunhar_email",
+        "veio": "criar_nota",
+        "args": {
+          "conteudo": "Eu vejo isso amanháo",
+          "titulo": "Verificar"
+        },
+        "ferramenta_ok": false,
+        "args_ok": false,
+        "problemas": [
+          "ferramenta: esperado rascunhar_email, veio criar_nota"
+        ],
+        "segundos": 3.63
+      },
+      {
+        "id": 40,
+        "frase": "manda um email pro fornecedor cobrando o prazo de entrega",
+        "esperado": "rascunhar_email",
+        "veio": "rascunhar_email",
+        "args": {
+          "destinatario": "fornecedor",
+          "corpo": "Cobrando o prazo de entrega",
+          "assunto": "Cobrança de prazo de entrega"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 3.1
+      }
+    ]
+  },
+  {
+    "modelo": "qwen2.5:7b",
+    "think": false,
+    "resultados": [
+      {
+        "id": 1,
+        "frase": "marca reunião com o João quinta às 15h",
+        "esperado": "criar_evento",
+        "veio": "criar_evento",
+        "args": {
+          "titulo": "Reunião com o João",
+          "inicio": "2026-09-22T15:00"
+        },
+        "ferramenta_ok": true,
+        "args_ok": false,
+        "problemas": [
+          "inicio: esperado {'prefixo': '2026-09-24T15:00'}, veio '2026-09-22T15:00'"
+        ],
+        "segundos": 40.81
+      },
+      {
+        "id": 2,
+        "frase": "bota no calendário dentista amanhã de manhã às 9",
+        "esperado": "criar_evento",
+        "veio": "criar_evento",
+        "args": {
+          "titulo": "Consulta ao dentista",
+          "inicio": "2026-09-22T09:00"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 6.28
+      },
+      {
+        "id": 3,
+        "frase": "agenda um almoço com a Carla dia 3 do mês que vem meio-dia",
+        "esperado": "criar_evento",
+        "veio": "criar_evento",
+        "args": {
+          "titulo": "Almoço com Carla",
+          "inicio": "2026-10-03T12:00"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 6.2
+      },
+      {
+        "id": 4,
+        "frase": "tenho consulta semana que vem terça às 8 e meia da manhã",
+        "esperado": "criar_evento",
+        "veio": "criar_evento",
+        "args": {
+          "titulo": "Consulta",
+          "inicio": "2026-09-27T08:30"
+        },
+        "ferramenta_ok": true,
+        "args_ok": false,
+        "problemas": [
+          "inicio: esperado {'prefixo': '2026-09-29T08:30'}, veio '2026-09-27T08:30'"
+        ],
+        "segundos": 5.88
+      },
+      {
+        "id": 5,
+        "frase": "o que eu tenho amanhã?",
+        "esperado": "listar_eventos",
+        "veio": "listar_eventos",
+        "args": {
+          "inicio": "2026-09-22",
+          "fim": "2026-09-22"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 5.92
+      },
+      {
+        "id": 6,
+        "frase": "me mostra minha agenda dessa semana",
+        "esperado": "listar_eventos",
+        "veio": "listar_eventos",
+        "args": {
+          "inicio": "2026-09-21",
+          "fim": "2026-09-29"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 5.93
+      },
+      {
+        "id": 7,
+        "frase": "tem alguma coisa marcada pra sexta?",
+        "esperado": "listar_eventos",
+        "veio": "listar_eventos",
+        "args": {
+          "inicio": "2026-09-22",
+          "fim": "2026-09-22"
+        },
+        "ferramenta_ok": true,
+        "args_ok": false,
+        "problemas": [
+          "inicio: esperado {'prefixo': '2026-09-25'}, veio '2026-09-22'"
+        ],
+        "segundos": 6.2
+      },
+      {
+        "id": 8,
+        "frase": "quais são meus compromissos de hoje",
+        "esperado": "listar_eventos",
+        "veio": "listar_eventos",
+        "args": {
+          "inicio": "2026-09-21",
+          "fim": "2026-09-21"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 6.1
+      },
+      {
+        "id": 9,
+        "frase": "adia a reunião com o João pra sexta, mesma hora",
+        "esperado": "editar_evento",
+        "veio": "editar_evento",
+        "args": {
+          "busca": "reunião com o João",
+          "novo_inicio": "2026-09-29T15:00"
+        },
+        "ferramenta_ok": true,
+        "args_ok": false,
+        "problemas": [
+          "novo_inicio: esperado {'prefixo': '2026-09-25'}, veio '2026-09-29T15:00'"
+        ],
+        "segundos": 6.35
+      },
+      {
+        "id": 10,
+        "frase": "muda o almoço de quinta pras 13h",
+        "esperado": "editar_evento",
+        "veio": "editar_evento",
+        "args": {
+          "busca": "almoco",
+          "novo_inicio": "2026-09-22T13:00"
+        },
+        "ferramenta_ok": true,
+        "args_ok": false,
+        "problemas": [
+          "novo_inicio: esperado {'prefixo': '2026-09-24T13:00'}, veio '2026-09-22T13:00'"
+        ],
+        "segundos": 5.91
+      },
+      {
+        "id": 11,
+        "frase": "troca o local da reunião de amanhã pro escritório",
+        "esperado": "editar_evento",
+        "veio": "editar_evento",
+        "args": {
+          "novo_local": "escritório",
+          "busca": "reunião de amanhã"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 5.34
+      },
+      {
+        "id": 12,
+        "frase": "cancela o dentista de amanhã",
+        "esperado": "editar_evento",
+        "veio": "editar_evento",
+        "args": {
+          "busca": "dentista",
+          "cancelar": true
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 4.41
+      },
+      {
+        "id": 13,
+        "frase": "me lembra de pagar o boleto da internet até sexta",
+        "esperado": "criar_tarefa",
+        "veio": "criar_tarefa",
+        "args": {
+          "prazo": "2026-09-22",
+          "titulo": "pagar o boleto da internet"
+        },
+        "ferramenta_ok": true,
+        "args_ok": false,
+        "problemas": [
+          "prazo: esperado {'prefixo': '2026-09-25'}, veio '2026-09-22'"
+        ],
+        "segundos": 5.54
+      },
+      {
+        "id": 14,
+        "frase": "preciso comprar ração pro cachorro",
+        "esperado": "criar_tarefa",
+        "veio": "criar_tarefa",
+        "args": {
+          "titulo": "comprar ração pro cachorro"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 4.58
+      },
+      {
+        "id": 15,
+        "frase": "anota aí: revisar o contrato do fornecedor, prioridade alta, até quarta",
+        "esperado": "criar_tarefa",
+        "veio": "criar_nota",
+        "args": {
+          "conteudo": "Revisar o contrato do fornecedor",
+          "titulo": "Revisão Contrato Fornecedor",
+          "prioridade": "alta",
+          "prazo": "2026-09-22T23:59"
+        },
+        "ferramenta_ok": false,
+        "args_ok": false,
+        "problemas": [
+          "ferramenta: esperado criar_tarefa, veio criar_nota"
+        ],
+        "segundos": 7.59
+      },
+      {
+        "id": 16,
+        "frase": "tenho que ligar pro contador amanhã",
+        "esperado": "criar_tarefa",
+        "veio": "criar_tarefa",
+        "args": {
+          "titulo": "Ligar pro contador",
+          "prazo": "2026-09-22T23:59"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 5.56
+      },
+      {
+        "id": 17,
+        "frase": "já paguei o boleto da internet",
+        "esperado": "concluir_tarefa",
+        "veio": "concluir_tarefa",
+        "args": {
+          "busca": "boleto da internet"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 4.2
+      },
+      {
+        "id": 18,
+        "frase": "terminei de revisar o contrato",
+        "esperado": "concluir_tarefa",
+        "veio": "concluir_tarefa",
+        "args": {
+          "busca": "revisão do contrato"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 4.21
+      },
+      {
+        "id": 19,
+        "frase": "marca a ração do cachorro como feita",
+        "esperado": "concluir_tarefa",
+        "veio": "concluir_tarefa",
+        "args": {
+          "busca": "ração do cachorro"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 4.27
+      },
+      {
+        "id": 20,
+        "frase": "resolvi aquilo do contador",
+        "esperado": "concluir_tarefa",
+        "veio": "concluir_tarefa",
+        "args": {
+          "busca": "aquilo do contador"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 4.42
+      },
+      {
+        "id": 21,
+        "frase": "o que que tá pendente?",
+        "esperado": "listar_tarefas",
+        "veio": "listar_tarefas",
+        "args": {},
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 3.93
+      },
+      {
+        "id": 22,
+        "frase": "quais tarefas vencem essa semana",
+        "esperado": "listar_tarefas",
+        "veio": "listar_tarefas",
+        "args": {
+          "prazo_ate": "2026-09-29",
+          "status": "pendente"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 5.63
+      },
+      {
+        "id": 23,
+        "frase": "me mostra só as tarefas de prioridade alta",
+        "esperado": "listar_tarefas",
+        "veio": "listar_tarefas",
+        "args": {
+          "prioridade": "alta"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 4.73
+      },
+      {
+        "id": 24,
+        "frase": "tem alguma coisa atrasada?",
+        "esperado": "listar_tarefas",
+        "veio": "listar_tarefas",
+        "args": {
+          "status": "atrasada"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 4.19
+      },
+      {
+        "id": 25,
+        "frase": "anota que o Bruno falou que o prazo do projeto mudou pra novembro",
+        "esperado": "criar_nota",
+        "veio": "criar_nota",
+        "args": {
+          "conteudo": "Bruno falou que o prazo do projeto mudou para novembro"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 5.41
+      },
+      {
+        "id": 26,
+        "frase": "faz uma nota: ideia de usar o Xeon como servidor do assistente",
+        "esperado": "criar_nota",
+        "veio": "criar_nota",
+        "args": {
+          "conteudo": "ideia de usar o Xeon como servidor do assistente",
+          "titulo": "Xeon como servidor"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 5.8
+      },
+      {
+        "id": 27,
+        "frase": "guarda isso: o wifi do escritório é rede CasaNet, canal 6",
+        "esperado": "criar_nota",
+        "veio": "criar_nota",
+        "args": {
+          "conteudo": "o wifi do escritório é rede CasaNet, canal 6"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 5.33
+      },
+      {
+        "id": 28,
+        "frase": "registra aí que a reunião com a Marina ficou de continuar semana que vem",
+        "esperado": "criar_nota",
+        "veio": "criar_nota",
+        "args": {
+          "conteudo": "Reunião com a Marina ficou de continuar semana que vem"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 5.63
+      },
+      {
+        "id": 29,
+        "frase": "o que eu anotei sobre o projeto do Bruno?",
+        "esperado": "buscar_notas",
+        "veio": "buscar_notas",
+        "args": {
+          "termo": "projeto Bruno"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 4.66
+      },
+      {
+        "id": 30,
+        "frase": "procura minhas notas sobre orçamento",
+        "esperado": "buscar_notas",
+        "veio": "buscar_notas",
+        "args": {
+          "termo": "orçamento"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 4.4
+      },
+      {
+        "id": 31,
+        "frase": "acha aquela nota da reunião com a Marina",
+        "esperado": "buscar_notas",
+        "veio": "buscar_notas",
+        "args": {
+          "termo": "reunião com a Marina"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 4.74
+      },
+      {
+        "id": 32,
+        "frase": "eu escrevi alguma coisa sobre o Xeon?",
+        "esperado": "buscar_notas",
+        "veio": "buscar_notas",
+        "args": {
+          "termo": "Xeon"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 4.25
+      },
+      {
+        "id": 33,
+        "frase": "resume os emails de hoje",
+        "esperado": "resumir_email",
+        "veio": "resumir_email",
+        "args": {
+          "periodo": "hoje"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 4.33
+      },
+      {
+        "id": 34,
+        "frase": "me fala o que chegou do Banco Exemplo",
+        "esperado": "resumir_email",
+        "veio": "resumir_email",
+        "args": {
+          "remetente": "Banco Exemplo"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 4.58
+      },
+      {
+        "id": 35,
+        "frase": "tem algum email importante que eu não respondi?",
+        "esperado": "resumir_email",
+        "veio": "resumir_email",
+        "args": {
+          "sem_resposta": true
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 4.32
+      },
+      {
+        "id": 36,
+        "frase": "resume aquela thread com o fornecedor",
+        "esperado": "resumir_email",
+        "veio": "resumir_email",
+        "args": {
+          "remetente": "fornecedor"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 4.64
+      },
+      {
+        "id": 37,
+        "frase": "responde pro João que eu confirmo a reunião de quinta",
+        "esperado": "rascunhar_email",
+        "veio": "rascunhar_email",
+        "args": {
+          "destinatario": "João",
+          "corpo": "Confirmei a reunião para quinta-feira. Detalhes adicionais serão fornecidos brevemente.",
+          "assunto": "Confirmação de Reunião"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 7.69
+      },
+      {
+        "id": 38,
+        "frase": "escreve um email pro contador pedindo o balanço do mês",
+        "esperado": "rascunhar_email",
+        "veio": "rascunhar_email",
+        "args": {
+          "destinatario": " contador@example.com",
+          "corpo": "Prezado contador,\nGostaríamos de solicitar o balanço do mês atual.\nAgradecemos antecipadamente pelo seu esforço.\nAtenciosamente, \nSeu nome.",
+          "assunto": "Solicitação de Balanço Mensal"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 9.85
+      },
+      {
+        "id": 39,
+        "frase": "rascunha uma resposta pra Marina dizendo que eu vejo isso amanhã",
+        "esperado": "rascunhar_email",
+        "veio": "rascunhar_email",
+        "args": {
+          "destinatario": "Marina",
+          "corpo": "Olá Marina, verificarei isso amanhã para você. Até logo!",
+          "assunto": "Re: Reunião programada"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 7.47
+      },
+      {
+        "id": 40,
+        "frase": "manda um email pro fornecedor cobrando o prazo de entrega",
+        "esperado": "rascunhar_email",
+        "veio": "rascunhar_email",
+        "args": {
+          "destinatario": "fornecedor@example.com",
+          "corpo": "Prezados,\nGostaríamos de cobrar o prazo de entrega do pedido nº 123456. Estamos aguardando o produto há mais de 10 dias e gostaríamos de saber o status atual.\nAgradecemos antecipadamente pela atenção.\nAtt.,\nSeu nome.",
+          "assunto": "Cobrança de Prazo de Entrega"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 11.63
+      }
+    ]
+  }
+]

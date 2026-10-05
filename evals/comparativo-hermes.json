@@ -1,0 +1,319 @@
+[
+  {
+    "modelo": "hermes3:3b",
+    "think": false,
+    "resultados": [
+      {
+        "id": 1,
+        "frase": "marca reunião com o João quinta às 15h",
+        "esperado": "criar_evento",
+        "veio": null,
+        "args": {},
+        "ferramenta_ok": false,
+        "args_ok": false,
+        "problemas": [
+          "nenhuma ferramenta chamada (respondeu texto: '\"./\\n{ \"name\" : \"editar_evento\", \"arguments\" : {\\n \"busca\" : \"')"
+        ],
+        "segundos": 12.92
+      },
+      {
+        "id": 2,
+        "frase": "bota no calendário dentista amanhã de manhã às 9",
+        "esperado": "criar_evento",
+        "veio": "criar_evento",
+        "args": {
+          "titulo": "visita ao dentista",
+          "inicio": "2027-09-25T09:00",
+          "local": "Dentista Amigo"
+        },
+        "ferramenta_ok": true,
+        "args_ok": false,
+        "problemas": [
+          "inicio: esperado {'prefixo': '2026-09-22T09:00'}, veio '2027-09-25T09:00'"
+        ],
+        "segundos": 3.09
+      },
+      {
+        "id": 3,
+        "frase": "agenda um almoço com a Carla dia 3 do mês que vem meio-dia",
+        "esperado": "criar_evento",
+        "veio": null,
+        "args": {},
+        "ferramenta_ok": false,
+        "args_ok": false,
+        "problemas": [
+          "nenhuma ferramenta chamada (respondeu texto: 'Goldberg\\n{\\n \"name\" : \"criar_evento\",\\n \"arguments\" : {\\n  \"tit')"
+        ],
+        "segundos": 3.11
+      },
+      {
+        "id": 4,
+        "frase": "tenho consulta semana que vem terça às 8 e meia da manhã",
+        "esperado": "criar_evento",
+        "veio": "criar_evento",
+        "args": {
+          "inicio": "2023-06-06T081500",
+          "local": "Sala de reuniões",
+          "titulo": "Consulta semanal"
+        },
+        "ferramenta_ok": true,
+        "args_ok": false,
+        "problemas": [
+          "inicio: esperado {'prefixo': '2026-09-29T08:30'}, veio '2023-06-06T081500'"
+        ],
+        "segundos": 3.1
+      },
+      {
+        "id": 5,
+        "frase": "o que eu tenho amanhã?",
+        "esperado": "listar_eventos",
+        "veio": null,
+        "args": {},
+        "ferramenta_ok": false,
+        "args_ok": false,
+        "problemas": [
+          "nenhuma ferramenta chamada (respondeu texto: '】\\n\\n{\\n \"name\": \"listar_eventos\",\\n \"arguments\": {\\n \"inicio\": \"')"
+        ],
+        "segundos": 2.8
+      },
+      {
+        "id": 6,
+        "frase": "me mostra minha agenda dessa semana",
+        "esperado": "listar_eventos",
+        "veio": null,
+        "args": {},
+        "ferramenta_ok": false,
+        "args_ok": false,
+        "problemas": [
+          "nenhuma ferramenta chamada (respondeu texto: 'Goldberg\\n\\n\\n{ \"name\" : \"listar_eventos\", \"arguments\" : {\\n \"in')"
+        ],
+        "segundos": 2.9
+      },
+      {
+        "id": 7,
+        "frase": "tem alguma coisa marcada pra sexta?",
+        "esperado": "listar_eventos",
+        "veio": null,
+        "args": {},
+        "ferramenta_ok": false,
+        "args_ok": false,
+        "problemas": [
+          "nenhuma ferramenta chamada (respondeu texto: ',{\"arguments\": { \"busca\": \"tem algo marcado para sexta\" , \"n')"
+        ],
+        "segundos": 2.84
+      },
+      {
+        "id": 8,
+        "frase": "quais são meus compromissos de hoje",
+        "esperado": "listar_eventos",
+        "veio": null,
+        "args": {},
+        "ferramenta_ok": false,
+        "args_ok": false,
+        "problemas": [
+          "nenhuma ferramenta chamada (respondeu texto: 'Goldberg\\n{\\n \"name\": \"listar_eventos\",\\n \"arguments\": {\\n \"inic')"
+        ],
+        "segundos": 2.74
+      },
+      {
+        "id": 9,
+        "frase": "adia a reunião com o João pra sexta, mesma hora",
+        "esperado": "editar_evento",
+        "veio": null,
+        "args": {},
+        "ferramenta_ok": false,
+        "args_ok": false,
+        "problemas": [
+          "nenhuma ferramenta chamada (respondeu texto: ',{\"arguments\": { \"busca\": \"reuni\\\\u00f3 com João\", \"novo_ini')"
+        ],
+        "segundos": 3.2
+      },
+      {
+        "id": 10,
+        "frase": "muda o almoço de quinta pras 13h",
+        "esperado": "editar_evento",
+        "veio": null,
+        "args": {},
+        "ferramenta_ok": false,
+        "args_ok": false,
+        "problemas": [
+          "nenhuma ferramenta chamada (respondeu texto: 'Goldberg\\n{\\n \"name\": \"editar_evento\",\\n \"arguments\": {\\n \"busca')"
+        ],
+        "segundos": 3.26
+      }
+    ]
+  },
+  {
+    "modelo": "llama3.2:3b",
+    "think": false,
+    "resultados": [
+      {
+        "id": 1,
+        "frase": "marca reunião com o João quinta às 15h",
+        "esperado": "criar_evento",
+        "veio": "editar_evento",
+        "args": {
+          "cancelar": false,
+          "novo_inicio": "2026-09-25T15:00",
+          "novo_local": "",
+          "novo_titulo": "Reunião com João",
+          "busca": "reunião com João quinta ás 15h"
+        },
+        "ferramenta_ok": false,
+        "args_ok": false,
+        "problemas": [
+          "ferramenta: esperado criar_evento, veio editar_evento"
+        ],
+        "segundos": 14.89
+      },
+      {
+        "id": 2,
+        "frase": "bota no calendário dentista amanhã de manhã às 9",
+        "esperado": "criar_evento",
+        "veio": "criar_evento",
+        "args": {
+          "local": "Dentista",
+          "participantes": "[]",
+          "titulo": "Bota no calendário dentista amanhç de manhçá",
+          "inicio": "2026-09-22T09:00"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 3.34
+      },
+      {
+        "id": 3,
+        "frase": "agenda um almoço com a Carla dia 3 do mês que vem meio-dia",
+        "esperado": "criar_evento",
+        "veio": "criar_evento",
+        "args": {
+          "titulo": "almoço com Carla",
+          "inicio": "2026-10-03T12:00:00",
+          "local": "",
+          "participantes": [
+            "Carla"
+          ]
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 2.88
+      },
+      {
+        "id": 4,
+        "frase": "tenho consulta semana que vem terça às 8 e meia da manhã",
+        "esperado": "criar_evento",
+        "veio": "criar_evento",
+        "args": {
+          "titulo": "consulta",
+          "inicio": "2026-09-28T08:30",
+          "participantes": [
+            "pessoa1",
+            "pessoa2"
+          ]
+        },
+        "ferramenta_ok": true,
+        "args_ok": false,
+        "problemas": [
+          "inicio: esperado {'prefixo': '2026-09-29T08:30'}, veio '2026-09-28T08:30'"
+        ],
+        "segundos": 2.93
+      },
+      {
+        "id": 5,
+        "frase": "o que eu tenho amanhã?",
+        "esperado": "listar_eventos",
+        "veio": "listar_tarefas",
+        "args": {
+          "prazo_ate": "2026-09-22"
+        },
+        "ferramenta_ok": false,
+        "args_ok": false,
+        "problemas": [
+          "ferramenta: esperado listar_eventos, veio listar_tarefas"
+        ],
+        "segundos": 2.65
+      },
+      {
+        "id": 6,
+        "frase": "me mostra minha agenda dessa semana",
+        "esperado": "listar_eventos",
+        "veio": "listar_eventos",
+        "args": {
+          "inicio": "2026-09-19",
+          "fim": "2026-09-25"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 2.7
+      },
+      {
+        "id": 7,
+        "frase": "tem alguma coisa marcada pra sexta?",
+        "esperado": "listar_eventos",
+        "veio": "listar_eventos",
+        "args": {
+          "inicio": "2026-09-21",
+          "fim": "2026-09-25"
+        },
+        "ferramenta_ok": true,
+        "args_ok": false,
+        "problemas": [
+          "inicio: esperado {'prefixo': '2026-09-25'}, veio '2026-09-21'"
+        ],
+        "segundos": 2.76
+      },
+      {
+        "id": 8,
+        "frase": "quais são meus compromissos de hoje",
+        "esperado": "listar_eventos",
+        "veio": "listar_eventos",
+        "args": {
+          "inicio": "2026-09-21",
+          "fim": "2026-09-21"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 2.67
+      },
+      {
+        "id": 9,
+        "frase": "adia a reunião com o João pra sexta, mesma hora",
+        "esperado": "editar_evento",
+        "veio": "editar_evento",
+        "args": {
+          "busca": "reunião com João",
+          "cancelar": false,
+          "novo_inicio": "2026-09-24T15:00",
+          "novo_local": "",
+          "novo_titulo": ""
+        },
+        "ferramenta_ok": true,
+        "args_ok": false,
+        "problemas": [
+          "novo_inicio: esperado {'prefixo': '2026-09-25'}, veio '2026-09-24T15:00'"
+        ],
+        "segundos": 3.08
+      },
+      {
+        "id": 10,
+        "frase": "muda o almoço de quinta pras 13h",
+        "esperado": "editar_evento",
+        "veio": "editar_evento",
+        "args": {
+          "cancelar": false,
+          "novo_titulo": "almoço de quinta (13h)",
+          "novo_inicio": "2026-09-24T13:00",
+          "busca": "almoço de quinta"
+        },
+        "ferramenta_ok": true,
+        "args_ok": true,
+        "problemas": [],
+        "segundos": 3.17
+      }
+    ]
+  }
+]

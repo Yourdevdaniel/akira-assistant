@@ -1,0 +1,17 @@
+CUDA: True
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+<venv>\Lib\site-packages\torch\nn\modules\rnn.py:123: UserWarning: dropout option adds dropout after all but last recurrent layer, so non-zero dropout expects num_layers greater than 1, but got dropout=0.2 and num_layers=1
+  warnings.warn(
+<venv>\Lib\site-packages\torch\nn\utils\weight_norm.py:143: FutureWarning: `torch.nn.utils.weight_norm` is deprecated in favor of `torch.nn.utils.parametrizations.weight_norm`.
+  WeightNorm.apply(module, name, dim)
+WARNING: Defaulting repo_id to hexgrad/Kokoro-82M. Pass repo_id='hexgrad/Kokoro-82M' to suppress this warning.
+
+--- CUDA ---
+ 15 chars | 1o chunk 0.32s | total 0.32s | audio 1.5s | RTF 0.21x
+ 62 chars | 1o chunk 0.32s | total 0.32s | audio 4.0s | RTF 0.08x
+VRAM usada: 577 MB
+WARNING: Defaulting repo_id to hexgrad/Kokoro-82M. Pass repo_id='hexgrad/Kokoro-82M' to suppress this warning.
+
+--- CPU ---
+ 15 chars | 1o chunk 0.99s | total 0.99s | audio 1.5s | RTF 0.65x
+ 62 chars | 1o chunk 2.18s | total 2.18s | audio 4.0s | RTF 0.54x

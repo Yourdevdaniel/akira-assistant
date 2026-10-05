@@ -1,0 +1,21 @@
+Akira Assistant
+Copyright (c) 2026 Daniel Bernardes Araújo
+Licensed under the MIT License (see LICENSE), except as noted below.
+
+This project runs on top of OpenJarvis:
+  https://github.com/open-jarvis/OpenJarvis
+  Copyright Open Jarvis Contributors
+  Licensed under the Apache License, Version 2.0
+  http://www.apache.org/licenses/LICENSE-2.0
+
+OpenJarvis is not included in this repository. It is installed separately
+(see README, "Run it").
+
+patches/openjarvis-local.patch contains modifications to OpenJarvis source
+files (src/openjarvis/agents/morning_digest.py, channels/telegram.py,
+core/config.py, sdk.py, system/orchestrator.py, tools/digest_collect.py and
+their tests), made by Daniel Bernardes Araújo in 2026. As a derivative of
+OpenJarvis, that patch is distributed under the Apache License, Version 2.0;
+a copy of that license is in patches/LICENSE-APACHE-2.0.
+The header of the patch states that these files were changed and summarizes
+each change.

@@ -1,0 +1,59 @@
+
+──────────────────────────────────────────────────────────────────────
+hermes3:3b  (thinking: off)  [10 de 40 casos]
+──────────────────────────────────────────────────────────────────────
+  X   1/40   12.9s  marca reunião com o João quinta às 15h
+  ~   2/40    3.1s  bota no calendário dentista amanhã de manhã às 9
+  X   3/40    3.1s  agenda um almoço com a Carla dia 3 do mês que vem me
+  ~   4/40    3.1s  tenho consulta semana que vem terça às 8 e meia da m
+  X   5/40    2.8s  o que eu tenho amanhã?
+  X   6/40    2.9s  me mostra minha agenda dessa semana
+  X   7/40    2.8s  tem alguma coisa marcada pra sexta?
+  X   8/40    2.7s  quais são meus compromissos de hoje
+  X   9/40    3.2s  adia a reunião com o João pra sexta, mesma hora
+  X  10/40    3.3s  muda o almoço de quinta pras 13h
+
+──────────────────────────────────────────────────────────────────────
+llama3.2:3b  (thinking: off)  [10 de 40 casos]
+──────────────────────────────────────────────────────────────────────
+  X   1/40   14.9s  marca reunião com o João quinta às 15h
+  OK  2/40    3.3s  bota no calendário dentista amanhã de manhã às 9
+  OK  3/40    2.9s  agenda um almoço com a Carla dia 3 do mês que vem me
+  ~   4/40    2.9s  tenho consulta semana que vem terça às 8 e meia da m
+  X   5/40    2.6s  o que eu tenho amanhã?
+  OK  6/40    2.7s  me mostra minha agenda dessa semana
+  ~   7/40    2.8s  tem alguma coisa marcada pra sexta?
+  OK  8/40    2.7s  quais são meus compromissos de hoje
+  ~   9/40    3.1s  adia a reunião com o João pra sexta, mesma hora
+  OK 10/40    3.2s  muda o almoço de quinta pras 13h
+
+══════════════════════════════════════════════════════════════════════
+RESULTADO
+══════════════════════════════════════════════════════════════════════
+
+modelo          ferramenta    + args   mediana      p95
+-------------- ----------- --------- --------- --------
+hermes3:3b        2/10   20%   0   0%      3.1s    12.9s
+llama3.2:3b       8/10   80%   5  50%      2.9s    14.9s
+
+ferramenta          hermes3:3b llama3.2:3b
+------------------------------------------
+criar_evento            0/4        2/4  
+listar_eventos          0/4        2/4  
+editar_evento           0/2        1/2  
+criar_tarefa            0/0        0/0  
+concluir_tarefa         0/0        0/0  
+listar_tarefas          0/0        0/0  
+criar_nota              0/0        0/0  
+buscar_notas            0/0        0/0  
+resumir_email           0/0        0/0  
+rascunhar_email         0/0        0/0  
+
+══════════════════════════════════════════════════════════════════════
+  hermes3:3b     0.0%  REPROVADO — ver §9 (upgrade de RAM / modelo maior)
+               mediana 3.1s — lento pra ligação
+  llama3.2:3b   50.0%  REPROVADO — ver §9 (upgrade de RAM / modelo maior)
+               mediana 2.9s — lento pra ligação
+══════════════════════════════════════════════════════════════════════
+
+bruto: evals\comparativo-hermes.json

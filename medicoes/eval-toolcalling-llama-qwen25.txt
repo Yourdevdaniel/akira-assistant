@@ -1,0 +1,190 @@
+
+──────────────────────────────────────────────────────────────────────
+llama3.2:3b  (thinking: off)
+──────────────────────────────────────────────────────────────────────
+  X   1/40   15.3s  marca reunião com o João quinta às 15h
+  OK  2/40    3.5s  bota no calendário dentista amanhã de manhã às 9
+  OK  3/40    3.0s  agenda um almoço com a Carla dia 3 do mês que vem me
+  ~   4/40    3.0s  tenho consulta semana que vem terça às 8 e meia da m
+  X   5/40    2.7s  o que eu tenho amanhã?
+  OK  6/40    2.7s  me mostra minha agenda dessa semana
+  ~   7/40    2.8s  tem alguma coisa marcada pra sexta?
+  OK  8/40    2.7s  quais são meus compromissos de hoje
+  ~   9/40    3.2s  adia a reunião com o João pra sexta, mesma hora
+  OK 10/40    3.4s  muda o almoço de quinta pras 13h
+  OK 11/40    3.1s  troca o local da reunião de amanhã pro escritório
+  ~  12/40    3.3s  cancela o dentista de amanhã
+  X  13/40    2.6s  me lembra de pagar o boleto da internet até sexta
+  OK 14/40    2.7s  preciso comprar ração pro cachorro
+  ~  15/40    3.0s  anota aí: revisar o contrato do fornecedor, priorida
+  OK 16/40    2.9s  tenho que ligar pro contador amanhã
+  OK 17/40    2.5s  já paguei o boleto da internet
+  OK 18/40    2.7s  terminei de revisar o contrato
+  OK 19/40    2.7s  marca a ração do cachorro como feita
+  OK 20/40    2.7s  resolvi aquilo do contador
+  OK 21/40    2.6s  o que que tá pendente?
+  OK 22/40    2.7s  quais tarefas vencem essa semana
+  OK 23/40    2.5s  me mostra só as tarefas de prioridade alta
+  OK 24/40    2.5s  tem alguma coisa atrasada?
+  X  25/40    2.9s  anota que o Bruno falou que o prazo do projeto mudo
+  OK 26/40    2.7s  faz uma nota: ideia de usar o Xeon como servidor do 
+  OK 27/40    2.7s  guarda isso: o wifi do escritório é rede CasaNet, cana
+  X  28/40    3.2s  registra aí que a reunião com a Marina ficou de con
+  OK 29/40    2.6s  o que eu anotei sobre o projeto do Bruno?
+  OK 30/40    2.6s  procura minhas notas sobre orçamento
+  OK 31/40    2.7s  acha aquela nota da reunião com a Marina
+  OK 32/40    2.5s  eu escrevi alguma coisa sobre o Xeon?
+  OK 33/40    2.6s  resume os emails de hoje
+  X  34/40    2.6s  me fala o que chegou do Banco Exemplo
+  OK 35/40    2.7s  tem algum email importante que eu não respondi?
+  X  36/40    2.6s  resume aquela thread com o fornecedor
+  X  37/40    3.1s  responde pro João que eu confirmo a reunião de quin
+  OK 38/40    3.7s  escreve um email pro contador pedindo o balanço do m
+  X  39/40    3.6s  rascunha uma resposta pra Marina dizendo que eu vej
+  OK 40/40    3.1s  manda um email pro fornecedor cobrando o prazo de en
+
+──────────────────────────────────────────────────────────────────────
+qwen2.5:7b  (thinking: off)
+──────────────────────────────────────────────────────────────────────
+  ~   1/40   40.8s  marca reunião com o João quinta às 15h
+  OK  2/40    6.3s  bota no calendário dentista amanhã de manhã às 9
+  OK  3/40    6.2s  agenda um almoço com a Carla dia 3 do mês que vem me
+  ~   4/40    5.9s  tenho consulta semana que vem terça às 8 e meia da m
+  OK  5/40    5.9s  o que eu tenho amanhã?
+  OK  6/40    5.9s  me mostra minha agenda dessa semana
+  ~   7/40    6.2s  tem alguma coisa marcada pra sexta?
+  OK  8/40    6.1s  quais são meus compromissos de hoje
+  ~   9/40    6.3s  adia a reunião com o João pra sexta, mesma hora
+  ~  10/40    5.9s  muda o almoço de quinta pras 13h
+  OK 11/40    5.3s  troca o local da reunião de amanhã pro escritório
+  OK 12/40    4.4s  cancela o dentista de amanhã
+  ~  13/40    5.5s  me lembra de pagar o boleto da internet até sexta
+  OK 14/40    4.6s  preciso comprar ração pro cachorro
+  X  15/40    7.6s  anota aí: revisar o contrato do fornecedor, priorida
+  OK 16/40    5.6s  tenho que ligar pro contador amanhã
+  OK 17/40    4.2s  já paguei o boleto da internet
+  OK 18/40    4.2s  terminei de revisar o contrato
+  OK 19/40    4.3s  marca a ração do cachorro como feita
+  OK 20/40    4.4s  resolvi aquilo do contador
+  OK 21/40    3.9s  o que que tá pendente?
+  OK 22/40    5.6s  quais tarefas vencem essa semana
+  OK 23/40    4.7s  me mostra só as tarefas de prioridade alta
+  OK 24/40    4.2s  tem alguma coisa atrasada?
+  OK 25/40    5.4s  anota que o Bruno falou que o prazo do projeto mudo
+  OK 26/40    5.8s  faz uma nota: ideia de usar o Xeon como servidor do 
+  OK 27/40    5.3s  guarda isso: o wifi do escritório é rede CasaNet, cana
+  OK 28/40    5.6s  registra aí que a reunião com a Marina ficou de con
+  OK 29/40    4.7s  o que eu anotei sobre o projeto do Bruno?
+  OK 30/40    4.4s  procura minhas notas sobre orçamento
+  OK 31/40    4.7s  acha aquela nota da reunião com a Marina
+  OK 32/40    4.3s  eu escrevi alguma coisa sobre o Xeon?
+  OK 33/40    4.3s  resume os emails de hoje
+  OK 34/40    4.6s  me fala o que chegou do Banco Exemplo
+  OK 35/40    4.3s  tem algum email importante que eu não respondi?
+  OK 36/40    4.6s  resume aquela thread com o fornecedor
+  OK 37/40    7.7s  responde pro João que eu confirmo a reunião de quin
+  OK 38/40    9.8s  escreve um email pro contador pedindo o balanço do m
+  OK 39/40    7.5s  rascunha uma resposta pra Marina dizendo que eu vej
+  OK 40/40   11.6s  manda um email pro fornecedor cobrando o prazo de en
+
+══════════════════════════════════════════════════════════════════════
+RESULTADO
+══════════════════════════════════════════════════════════════════════
+
+modelo          ferramenta    + args   mediana      p95
+-------------- ----------- --------- --------- --------
+llama3.2:3b      31/40   78%  26  65%      2.7s     3.7s
+qwen2.5:7b       39/40   98%  33  82%      5.5s    11.6s
+
+ferramenta         llama3.2:3b  qwen2.5:7b
+------------------------------------------
+criar_evento            2/4        2/4  
+listar_eventos          2/4        3/4  
+editar_evento           2/4        2/4  
+criar_tarefa            2/4        2/4  
+concluir_tarefa         4/4        4/4  
+listar_tarefas          4/4        4/4  
+criar_nota              2/4        4/4  
+buscar_notas            4/4        4/4  
+resumir_email           2/4        4/4  
+rascunhar_email         2/4        4/4  
+
+──────────────────────────────────────────────────────────────────────
+FALHAS — llama3.2:3b
+──────────────────────────────────────────────────────────────────────
+
+  #1  marca reunião com o João quinta às 15h
+       → ferramenta: esperado criar_evento, veio editar_evento
+
+  #4  tenho consulta semana que vem terça às 8 e meia da manhã
+       → inicio: esperado {'prefixo': '2026-09-29T08:30'}, veio '2026-09-28T08:30'
+
+  #5  o que eu tenho amanhã?
+       → ferramenta: esperado listar_eventos, veio listar_tarefas
+
+  #7  tem alguma coisa marcada pra sexta?
+       → inicio: esperado {'prefixo': '2026-09-25'}, veio '2026-09-21'
+
+  #9  adia a reunião com o João pra sexta, mesma hora
+       → novo_inicio: esperado {'prefixo': '2026-09-25'}, veio '2026-09-24T15:00'
+
+  #12  cancela o dentista de amanhã
+       → cancelar: esperado {'igual': True}, veio False
+
+  #13  me lembra de pagar o boleto da internet até sexta
+       → ferramenta: esperado criar_tarefa, veio concluir_tarefa
+
+  #15  anota aí: revisar o contrato do fornecedor, prioridade alta, até quarta
+       → prazo: esperado {'prefixo': '2026-09-23'}, veio '2026-09-24'
+
+  #25  anota que o Bruno falou que o prazo do projeto mudou pra novembro
+       → ferramenta: esperado criar_nota, veio concluir_tarefa
+
+  #28  registra aí que a reunião com a Marina ficou de continuar semana que vem
+       → ferramenta: esperado criar_nota, veio editar_evento
+
+  #34  me fala o que chegou do Banco Exemplo
+       → ferramenta: esperado resumir_email, veio buscar_notas
+
+  #36  resume aquela thread com o fornecedor
+       → ferramenta: esperado resumir_email, veio buscar_notas
+
+  #37  responde pro João que eu confirmo a reunião de quinta
+       → ferramenta: esperado rascunhar_email, veio editar_evento
+
+  #39  rascunha uma resposta pra Marina dizendo que eu vejo isso amanhã
+       → ferramenta: esperado rascunhar_email, veio criar_nota
+
+──────────────────────────────────────────────────────────────────────
+FALHAS — qwen2.5:7b
+──────────────────────────────────────────────────────────────────────
+
+  #1  marca reunião com o João quinta às 15h
+       → inicio: esperado {'prefixo': '2026-09-24T15:00'}, veio '2026-09-22T15:00'
+
+  #4  tenho consulta semana que vem terça às 8 e meia da manhã
+       → inicio: esperado {'prefixo': '2026-09-29T08:30'}, veio '2026-09-27T08:30'
+
+  #7  tem alguma coisa marcada pra sexta?
+       → inicio: esperado {'prefixo': '2026-09-25'}, veio '2026-09-22'
+
+  #9  adia a reunião com o João pra sexta, mesma hora
+       → novo_inicio: esperado {'prefixo': '2026-09-25'}, veio '2026-09-29T15:00'
+
+  #10  muda o almoço de quinta pras 13h
+       → novo_inicio: esperado {'prefixo': '2026-09-24T13:00'}, veio '2026-09-22T13:00'
+
+  #13  me lembra de pagar o boleto da internet até sexta
+       → prazo: esperado {'prefixo': '2026-09-25'}, veio '2026-09-22'
+
+  #15  anota aí: revisar o contrato do fornecedor, prioridade alta, até quarta
+       → ferramenta: esperado criar_tarefa, veio criar_nota
+
+══════════════════════════════════════════════════════════════════════
+  llama3.2:3b   65.0%  REPROVADO — ver §9 (upgrade de RAM / modelo maior)
+               mediana 2.7s — lento pra ligação
+  qwen2.5:7b    82.5%  LIMÍTROFE — precisa do parser de data (§5.1 mitigação 2)
+               mediana 5.5s — lento pra ligação
+══════════════════════════════════════════════════════════════════════
+
+bruto: evals\comparativo-tarefas.json

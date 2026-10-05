@@ -1,0 +1,96 @@
+
+── llama3.2:3b ───────────────────────────────────────────────────────
+  OK  1/41   1.1s  preciso levar o carro na revisão até dia 30
+  OK  2/41   0.7s  anota aí: renovar a CNH, prioridade alta
+  OK  3/41   0.8s  tenho que mandar o relatório pro Paulo amanhã
+  OK  4/41   0.8s  me lembra de comprar presente pra minha mãe no sábad
+  OK  5/41   0.8s  Akira, anota pra mim: agendar dentista semana que ve
+  OK  6/41   0.8s  coloca na lista cancelar a assinatura da academia
+  OK  7/41   1.0s  não posso esquecer de pagar o IPVA até o fim do mês,
+  OK  8/41   0.7s  preciso responder o email do banco hoje
+  OK  9/41   0.9s  adiciona tarefa: trocar a lâmpada da cozinha
+  OK 10/41   0.7s  tenho que ir no cartório na quinta
+  OK 11/41   0.7s  Anota aí, marcar o dentista amanhã.
+  OK 12/41   0.6s  o que tem na minha lista?
+  OK 13/41   0.6s  quais são minhas tarefas?
+  OK 14/41   0.6s  o que ficou pendente?
+  OK 15/41   0.6s  me mostra as tarefas
+  OK 16/41   0.6s  tem alguma coisa pra eu fazer hoje?
+  OK 17/41   0.7s  já levei o carro na revisão
+  OK 18/41   0.7s  paguei o IPVA
+  OK 19/41   0.7s  pronto, mandei o relatório
+  OK 20/41   0.7s  consegui renovar a CNH
+  OK 21/41   0.7s  terminei a da lâmpada
+  OK 22/41   0.6s  tira da lista a academia, desisti
+  OK 23/41   0.6s  apaga a tarefa do cartório
+  OK 24/41   0.7s  esquece o presente da minha mãe, não precisa mais
+  OK 25/41   0.6s  qual a capital da Austrália?
+  OK 26/41   0.6s  bom dia, tudo bem?
+  OK 27/41   0.6s  me conta uma piada
+  OK 28/41   0.8s  preciso de uma receita de bolo de cenoura
+  OK 29/41   0.7s  quanto tempo leva pra cozinhar arroz?
+  OK 30/41   0.6s  tenho que admitir que hoje foi um dia difícil
+  OK 31/41   0.7s  o que você acha de Python?
+  OK 32/41   0.8s  vou ter que buscar as roupas na lavanderia sexta
+  OK 33/41   0.8s  anota: marcar a revisão da moto
+  OK 34/41   0.9s  me lembra de tomar a vacina da gripe dia 5
+  OK 35/41   0.6s  falta alguma coisa na minha lista?
+  OK 36/41   0.6s  o que eu preciso fazer essa semana?
+  OK 37/41   0.8s  busquei as roupas na lavanderia
+  OK 38/41   0.6s  a vacina eu já tomei
+  OK 39/41   0.6s  remove a da moto, vendi ela
+  OK 40/41   0.7s  preciso que você me explique o que é inflação
+  OK 41/41   0.6s  tenho que dizer, você tá mandando bem
+
+── qwen2.5:7b ────────────────────────────────────────────────────────
+  OK  1/41   4.4s  preciso levar o carro na revisão até dia 30
+  OK  2/41   3.5s  anota aí: renovar a CNH, prioridade alta
+  OK  3/41   3.7s  tenho que mandar o relatório pro Paulo amanhã
+  OK  4/41   3.6s  me lembra de comprar presente pra minha mãe no sábad
+  OK  5/41   3.5s  Akira, anota pra mim: agendar dentista semana que ve
+  OK  6/41   3.3s  coloca na lista cancelar a assinatura da academia
+  OK  7/41   4.0s  não posso esquecer de pagar o IPVA até o fim do mês,
+  OK  8/41   3.3s  preciso responder o email do banco hoje
+  OK  9/41   3.7s  adiciona tarefa: trocar a lâmpada da cozinha
+  OK 10/41   3.9s  tenho que ir no cartório na quinta
+  OK 11/41   4.0s  Anota aí, marcar o dentista amanhã.
+  OK 12/41   3.0s  o que tem na minha lista?
+  OK 13/41   3.0s  quais são minhas tarefas?
+  OK 14/41   2.9s  o que ficou pendente?
+  OK 15/41   2.9s  me mostra as tarefas
+  OK 16/41   2.8s  tem alguma coisa pra eu fazer hoje?
+  OK 17/41   3.3s  já levei o carro na revisão
+  OK 18/41   3.1s  paguei o IPVA
+  OK 19/41   3.3s  pronto, mandei o relatório
+  OK 20/41   3.4s  consegui renovar a CNH
+  OK 21/41   3.7s  terminei a da lâmpada
+  OK 22/41   2.9s  tira da lista a academia, desisti
+  OK 23/41   2.6s  apaga a tarefa do cartório
+  OK 24/41   3.1s  esquece o presente da minha mãe, não precisa mais
+  OK 25/41   2.9s  qual a capital da Austrália?
+  OK 26/41   2.7s  bom dia, tudo bem?
+  OK 27/41   2.7s  me conta uma piada
+  OK 28/41   3.0s  preciso de uma receita de bolo de cenoura
+  OK 29/41   2.8s  quanto tempo leva pra cozinhar arroz?
+  OK 30/41   2.5s  tenho que admitir que hoje foi um dia difícil
+  OK 31/41   2.6s  o que você acha de Python?
+  OK 32/41   3.9s  vou ter que buscar as roupas na lavanderia sexta
+  OK 33/41   3.5s  anota: marcar a revisão da moto
+  OK 34/41   3.9s  me lembra de tomar a vacina da gripe dia 5
+  OK 35/41   2.5s  falta alguma coisa na minha lista?
+  OK 36/41   2.5s  o que eu preciso fazer essa semana?
+  OK 37/41   3.4s  busquei as roupas na lavanderia
+  OK 38/41   2.5s  a vacina eu já tomei
+  OK 39/41   2.8s  remove a da moto, vendi ela
+  OK 40/41   2.8s  preciso que você me explique o que é inflação
+  OK 41/41   2.8s  tenho que dizer, você tá mandando bem
+
+══════════════════════════════════════════════════════════════════════
+modelo               ação       tudo   mediana     p95
+llama3.2:3b     41/41 100%  41/41 100%      0.7s    0.9s
+               só as frases novas: 10/10 certas
+qwen2.5:7b      41/41 100%  41/41 100%      3.1s    4.0s
+               só as frases novas: 10/10 certas
+══════════════════════════════════════════════════════════════════════
+
+bruto: evals\resultado-tarefas.json
